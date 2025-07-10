@@ -52,7 +52,10 @@ const LandingPage = ({
       </nav>
 
       {/* hero  section  */}
-      <section className="overflow-hidden py-32 md:mx-10 mx-5 rounded-4xl bg-color">
+      <section
+        className="overflow-hidden py-32 md:mx-10 mx-5 rounded-4xl bg-cover bg-color bg-center bg-no-repeat bg-image"
+      
+      >
         <div className="">
           <div className="flex flex-col gap-5">
             <div className="relative flex flex-col z-3 gap-5">
@@ -79,24 +82,15 @@ const LandingPage = ({
               {/* Description */}
               <p className="mx-auto max-w-3xl text-center text-muted-foreground md:text-lg">
                 {description ||
-                  " Get role-specific questions, expand answers when you need them,dive deeper into concepts, and organize everything your way. From preperation to mastery - your ultimate interview toolkit is here."}
+                  " Get role-specific questions, expand answers when you need them, dive deeper into concepts, and organize everything your way. From preparation to mastery - your ultimate interview toolkit is here."}
               </p>
 
               {/* Button and Trust Text */}
               <div className="flex flex-col items-center justify-center gap-3 pt-3 pb-12">
-                {/* <Button className="text-xl rounded-full" size="lg" asChild>
-                  <a
-                    href={(button && button.url) || defaultButton.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center"
-                  >
-                    {(button && button.text) || defaultButton.text}{" "}
-                    {(button && button.icon) || defaultButton.icon}
-                  </a>
-                </Button> */}
-
-                <Button onClick={() => setOpenAuthModal(true)} className="upsale-button text-xl rounded-full cursor-pointer">
+                <Button
+                  onClick={() => setOpenAuthModal(true)}
+                  className="upsale-button text-xl rounded-full cursor-pointer"
+                >
                   <span>Get Started</span>
                 </Button>
                 {trustText && (
@@ -107,16 +101,14 @@ const LandingPage = ({
 
             {/* Hero Image */}
             <img
-              src={
-                imageSrc ||
-                hero_img
-              }
+              src={imageSrc || hero_img}
               alt={imageAlt || "placeholder"}
               className="md:mx-auto z-5 h-full max-h-[524px] max-w-5xl border-2 border-gray-100 shadow-lg rounded-2xl object-cover"
             />
           </div>
         </div>
       </section>
+
 
 
       {/* login & signUp modal */}

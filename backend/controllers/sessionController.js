@@ -15,39 +15,47 @@ export const createSession = async (req, res) => {
             experience,
             topicsToFocus,
             description,
-        })
+        });
 
-        const questionDocs = await Promise.all(
+        await session.save();
+
+        const questionIds = await Promise.all(
             questions.map(async (q) => {
-                const question = await new Question({
+                const questionDoc = await new Question({
                     session: session._id,
-                    questions: q.question,
+                    question: q.question,
                     answer: q.answer,
                 });
-
-                return question._id;
+                await questionDoc.save();
+                return questionDoc._id;
             })
 
         );
 
-        session.questions = questionDocs;
+        session.questions = questionIds;
         await session.save();
-
 
         res.status(201).json({ success: true, message: "Session created successfully", session });
 
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
 
 
 // get all sessions for the logged in user 
-export const getMySessions = (req, res) => {
+export const getMySessions = async (req, res) => {
     try {
 
+        const sessions = await sessionModel.find({ user: req.user.id })
+            .sort({ createdAt: -1 })
+            .populate("questions");
+        res.status(200).json(sessions);
+
     } catch (error) {
+        console.error("GET /my-sessions Error:", error);
         res.status(500).json({ success: false, message: "Server Error" });
     }
 }
