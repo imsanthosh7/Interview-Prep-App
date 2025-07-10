@@ -70,12 +70,12 @@ const LandingPage = ({
               </div>
 
               {/* Icon */}
-              <div className="mx-auto flex gap-2 font-semibold items-center justify-center rounded-full border px-3 py-3 border-gray ">
+              <div className="mx-auto text-white flex gap-2 font-semibold items-center justify-center rounded-full border px-3 py-3 border-gray ">
                 <Sparkles className="size-5 " /> AI Powered
               </div>
 
               {/* Heading */}
-              <h2 className="mx-auto max-w-4xl text-center text-3xl font-medium text-balance md:text-6xl">
+              <h2 className="mx-auto max-w-4xl text-center text-3xl font-medium text-balance text-white md:text-6xl">
                 {heading || " Ace Interviews with AI-Powered Learning"}
               </h2>
 
