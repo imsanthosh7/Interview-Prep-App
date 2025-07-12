@@ -1,5 +1,5 @@
 import Question from '../models/questionModel.js';
-import sessionModel from '../models/sessionModel.js';
+import Session from '../models/sessionModel.js';
 
 
 // create a new session 
@@ -9,7 +9,7 @@ export const createSession = async (req, res) => {
         const userId = req.user._id;
 
 
-        const session = await new sessionModel({
+        const session = await new Session({
             user: userId,
             role,
             experience,
@@ -49,7 +49,7 @@ export const createSession = async (req, res) => {
 export const getMySessions = async (req, res) => {
     try {
 
-        const sessions = await sessionModel.find({ user: req.user.id })
+        const sessions = await Session.find({ user: req.user.id })
             .sort({ createdAt: -1 })
             .populate("questions");
         res.status(200).json(sessions);
@@ -65,7 +65,7 @@ export const getMySessions = async (req, res) => {
 export const getSessionById = async (req, res) => {
     try {
 
-        const session = await sessionModel.findById(req.params.id)
+        const session = await Session.findById(req.params.id)
             .populate({
                 path: "questions",
                 options: { sort: { isPinnd: -1, createdAt: 1 } }
@@ -87,7 +87,7 @@ export const getSessionById = async (req, res) => {
 // delete the sessions 
 export const deletesession = async (req, res) => {
     try {
-        const session = await sessionModel.findById(req.params.id);
+        const session = await Session.findById(req.params.id);
 
         if (!session) {
             return res.status(404).json({ success: false, message: "Session not found" });
@@ -96,12 +96,12 @@ export const deletesession = async (req, res) => {
         if (session.user.toString() !== req.user.id) {
             return res.status(401).json({ success: false, message: "Not authorized to delete this session" });
         }
-         
+
         // delete all auestions in linked session 
         await Question.deleteMany({ session: session._id });
-        
+
         // delete the session
-        await sessionModel.deleteOne({ _id: session._id });
+        await Session.deleteOne({ _id: session._id });
 
 
         res.status(200).json({ success: true, message: "Session deleted successfully" });
