@@ -2,6 +2,8 @@ import Question from '../models/questionModel.js';
 import Session from '../models/sessionModel.js';
 
 
+
+// add new questions in session 
 export const addQuestionToSession = async (req, res) => {
 
     try {
@@ -37,11 +39,19 @@ export const addQuestionToSession = async (req, res) => {
 }
 
 
-
-
+// pin or unpin a question 
 export const togglePinQuestion = async (req, res) => {
     try {
+        const question = await Question.findById(req.params.id);
 
+        if (!question) {
+            return res.status(404).json({ success: false, message: "Question not found" });
+        }
+
+        question.isPinned = !question.isPinned;
+        await question.save();
+
+        res.status(200).json({ success: true, question });
     } catch (error) {
         res.status(500).json({ success: false, message: "Server Error" })
     }
@@ -50,10 +60,23 @@ export const togglePinQuestion = async (req, res) => {
 
 
 
+// add the notes the question 
 export const updateQuestionNote = async (req, res) => {
     try {
+        const { note } = req.body;
+        const question = await Question.findById(req.params.id)
+
+        if (!question) {
+            return res.status(404).json({ success: false, message: "Question not found" })
+        }
+
+        question.note = note || "";
+        await question.save();
+
+        res.status(200).json({ success: true, question });
 
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ success: false, message: "Server Error" })
     }
 }
