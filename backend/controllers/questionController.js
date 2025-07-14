@@ -58,8 +58,6 @@ export const togglePinQuestion = async (req, res) => {
 }
 
 
-
-
 // add the notes the question 
 export const updateQuestionNote = async (req, res) => {
     try {
