@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Login from './pages/Auth/Login';
 import SignUp from "./pages/Auth/SignUp";
 import Dashbord from "./pages/Home/Dashboard"
 import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
 import LandingPage from './pages/LandingPage';
+import { Toaster } from 'sonner'
 
 
 
@@ -22,8 +22,9 @@ const App = () => {
         </Routes>
       </Router>
 
+      <Toaster richColors />
     </>
-      
+
   )
 }
 
