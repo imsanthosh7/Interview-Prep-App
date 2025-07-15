@@ -1,10 +1,11 @@
-import React, { useState, } from 'react'
+import React, { useContext, useState, } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import { API_PATHS } from '../../utils/apipath.js';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { UserContext } from '../../context/userContext.jsx';
 
 
 
@@ -17,6 +18,8 @@ const Login = ({ setCurrentPage }) => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+
+  const { updateUser } = useContext(UserContext);
 
   // backend url 
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -40,11 +43,18 @@ const Login = ({ setCurrentPage }) => {
     //  login Api call 
     try {
 
-      const { data } = await axios.post(`${baseUrl}${API_PATHS.AUTH.LOGIN}`, { email, password }, {
+      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.LOGIN}`, { email, password }, {
         withCredentials: true,
+        headers: { 'Content-Type': 'application/json' }
       });
 
-      if (data.success) {
+
+      const { token } = response.data;
+
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data)
         navigate("/dashboard");
       } else {
         console.log(data.message);

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector';
 import { validateEmail } from '../../utils/helper';
+import { API_PATHS } from '../../utils/apipath.js';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 
 
@@ -10,11 +13,6 @@ import { validateEmail } from '../../utils/helper';
 
 
 
-
-
-const handleSignUp = () => {
-
-}
 
 
 
@@ -27,8 +25,11 @@ const SignUp = ({ setCurrentPage }) => {
 
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
 
 
+  // backend url 
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
   const handleSignUp = async (e) => {
@@ -54,13 +55,25 @@ const SignUp = ({ setCurrentPage }) => {
     setError("")
 
     try {
+      const { data } = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { profilePic, fullName, email, password }, {
+        withCredentials: true,
+      });
+
+      if (data.success) {
+        navigate("/dashboard");
+      } else {
+        console.log(data.message);
+        setError(data.message);
+
+      }
 
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        setError(error.message || "Something went wrong, Please try again.");
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong. Please try again.");
       }
     }
-
   }
 
   return (
