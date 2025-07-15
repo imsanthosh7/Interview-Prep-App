@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Wifi, Zap, Sparkles, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import hero_img from "/src/assets/hero-img.png";
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal'
 import Login from './Auth/Login';
-
 import SignUp from "./Auth/SignUp";
+import { UserContext } from "../context/userContext";
+import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
 
 
 const LandingPage = ({
@@ -26,6 +27,9 @@ const LandingPage = ({
   const [currentPage, setCurrentPage] = useState("login");
 
 
+  const { user } = useContext(UserContext);
+
+
   // Default props fallback
   const defaultIcon = <Wifi className="size-6" />;
   const defaultButton = {
@@ -33,6 +37,15 @@ const LandingPage = ({
     // icon: <Zap className="size-4" />,
     url: "/",
   };
+
+
+  const handelCTA = () => {
+    if (!user) {
+      setOpenAuthModal(true);
+    } else {
+      navigate('/dashboard')
+    }
+  }
 
   return (
     <>
@@ -42,11 +55,17 @@ const LandingPage = ({
             <h1 className="text-2xl font-bold">Lorem ipsum</h1>
           </div>
           <div>
-            <Button
-              onClick={() => setOpenAuthModal(true)}
-              className="cursor-pointer text-lg rounded-full" >
-              Login
-            </Button>
+            {user ? (
+              <ProfileInfoCard />
+            ) : (
+              <Button
+                onClick={() => setOpenAuthModal(true)}
+                className="cursor-pointer text-lg rounded-full" >
+                Login
+              </Button>
+            )
+
+            }
           </div>
         </div>
       </nav>
@@ -54,7 +73,7 @@ const LandingPage = ({
       {/* hero  section  */}
       <section
         className="overflow-hidden py-32 md:mx-10 mx-5 rounded-4xl bg-cover bg-color bg-center bg-no-repeat bg-image"
-      
+
       >
         <div className="">
           <div className="flex flex-col gap-5">
@@ -88,7 +107,7 @@ const LandingPage = ({
               {/* Button and Trust Text */}
               <div className="flex flex-col items-center justify-center gap-3 pt-3 pb-12">
                 <Button
-                  onClick={() => setOpenAuthModal(true)}
+                  onClick={() => handelCTA()}
                   className="upsale-button text-xl rounded-full cursor-pointer"
                 >
                   <span>Get Started</span>
