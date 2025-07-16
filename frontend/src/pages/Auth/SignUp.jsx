@@ -6,7 +6,8 @@ import { validateEmail } from '../../utils/helper';
 import { API_PATHS } from '../../utils/apipath.js';
 import axios from 'axios';
 import { toast } from 'sonner';
-
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext.jsx';
 
 
 
@@ -21,9 +22,9 @@ const SignUp = ({ setCurrentPage }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-
   const [error, setError] = useState(null);
+
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const SignUp = ({ setCurrentPage }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-
+    let profileImageUrl = "";
 
     if (!fullName) {
       setError("Please enter full name.");
@@ -55,9 +56,17 @@ const SignUp = ({ setCurrentPage }) => {
     setError("")
 
     try {
-      const { data } = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { profilePic, fullName, email, password }, {
+
+      if (profilePic) {
+        const imageUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imageUploadRes.imageUrl || "";
+      }
+
+      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { fullName, email, password }, {
         withCredentials: true,
       });
+
+      const { token } = response.data;
 
       if (data.success) {
         navigate("/dashboard");

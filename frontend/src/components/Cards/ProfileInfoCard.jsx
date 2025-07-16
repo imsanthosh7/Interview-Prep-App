@@ -5,13 +5,20 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const handleLogout = () => {
 
-}
 
 const ProfileInfoCard = () => {
     const { user, clearUser } = useContext(UserContext);
+
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        clearUser();
+        localStorage.clear();
+        navigate("/");
+
+    }
+
     return (
         user && (
             <div className='flex items-center'>
