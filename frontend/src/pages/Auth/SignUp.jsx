@@ -8,7 +8,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { useContext } from 'react';
 import { UserContext } from '../../context/userContext.jsx';
-
+import { uploadImage } from '../../utils/uploadImage.js'
 
 
 
@@ -59,21 +59,19 @@ const SignUp = ({ setCurrentPage }) => {
 
       if (profilePic) {
         const imageUploadRes = await uploadImage(profilePic);
-        profileImageUrl = imageUploadRes.imageUrl || "";
+        profileImageUrl = imageUploadRes.imgUrl || "";
       }
 
-      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { fullName, email, password }, {
+      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { name: fullName, email, password, profileImageUrl }, {
         withCredentials: true,
       });
 
       const { token } = response.data;
 
-      if (data.success) {
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
         navigate("/dashboard");
-      } else {
-        console.log(data.message);
-        setError(data.message);
-
       }
 
     } catch (error) {

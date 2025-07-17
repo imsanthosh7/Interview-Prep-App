@@ -1,4 +1,4 @@
-import exprss from "express";
+import express from "express";
 import 'dotenv/config';
 import cors from 'cors';
 import path from 'path';
@@ -9,8 +9,12 @@ import sessionRoutes from "./routes/sessionRoutes.js";
 import { protect } from "./middlewares/authMiddleware.js";
 import questionsRoutes from "./routes/questionRoutes.js";
 import { generateInterviewQuestions, generateConceptExplanation } from './controllers/aiController.js'
-const app = exprss();
 
+
+
+const app = express();
+
+app.use('/uploads', express.static('uploads'));
 
 connectDB();
 
@@ -30,7 +34,7 @@ app.use(cors({
 
 
 
-app.use(exprss.json());
+app.use(express.json());
 app.use(cookieParser());
 
 

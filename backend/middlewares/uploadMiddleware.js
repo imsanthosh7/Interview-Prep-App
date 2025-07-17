@@ -1,4 +1,5 @@
 import multer from 'multer';
+import path from "path";
 
 // configure storage 
 const storage = multer.diskStorage({
@@ -6,8 +7,11 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        const extension = file.mimetype.split("/")[1].toLowerCase(); // e.g., jpeg, png
+        const nameWithoutExt = path.parse(file.originalname).name.replace(/\s+/g, '-'); // removes spaces
+        cb(null, `${Date.now()}-${nameWithoutExt}.${extension}`);
     }
+
 })
 
 

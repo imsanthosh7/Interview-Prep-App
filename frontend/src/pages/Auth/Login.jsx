@@ -56,10 +56,6 @@ const Login = ({ setCurrentPage }) => {
         localStorage.setItem("token", token);
         updateUser(response.data)
         navigate("/dashboard");
-      } else {
-        console.log(data.message);
-        setError(data.message);
-
       }
 
     } catch (error) {
