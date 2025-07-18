@@ -26,8 +26,6 @@ const App = () => {
         </Router>
         <Toaster richColors />
       </UserProvider>
-      
-
     </>
 
   )
