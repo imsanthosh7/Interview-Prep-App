@@ -7,6 +7,7 @@ import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
 import LandingPage from './pages/LandingPage';
 import { Toaster } from 'sonner'
 import { UserProvider } from './context/userContext';
+import SwapyTest from './components/SwapyTest';
 
 
 
@@ -26,6 +27,7 @@ const App = () => {
         </Router>
         <Toaster richColors />
       </UserProvider>
+      {/* <SwapyTest/> */}
     </>
 
   )
