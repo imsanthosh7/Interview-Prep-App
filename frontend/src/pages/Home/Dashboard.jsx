@@ -8,6 +8,9 @@ import { API_PATHS } from '../../utils/apipath.js';
 import axios from 'axios';
 import SummaryCard from '../../components/Cards/SummaryCard.jsx';
 import moment from 'moment';
+import Model from '../../components/Modal.jsx'
+import { createSwapy } from 'swapy';
+import CreateSessionForm from './CreateSessionForm.jsx';
 
 
 const Dashboard = () => {
@@ -17,12 +20,14 @@ const Dashboard = () => {
 
   const [openCreateModel, setOpenCreateModel] = useState(false);
   const [session, setsession] = useState([]);
-  console.log(session)
+
 
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
     open: false,
     data: null,
   });
+
+
 
 
   // backend url 
@@ -58,20 +63,21 @@ const Dashboard = () => {
       <div className='w-9/10 container mx-auto pt-4 pb-4'>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-7 pt-1 pb-6 px-4 md:px-0'>
           {session?.map((data, index) => (
-            <SummaryCard
-              Key={data?._id}
-              colors={CARD_BG[index % CARD_BG.length]}
-              role={data?.role || ""}
-              topicsToFocus={data?.topicsToFocus || ""}
-              experience={data?.experience || "-"}
-              questions={data?.questions?.length || "-"}
-              description={data?.description || ""}
-              lastUpdated={
-                data?.updatedAt ? moment(data.updatedAt).format("Do MMM YYYY") : ""
-              }
-              onSelect={() => navigate(`/interview-prep/${data?._id}`)}
-              onDelete={() => setOpenDeleteAlert({ open: true, data })}
-            />
+            <div key={data?._id}>
+              <SummaryCard
+                colors={CARD_BG[index % CARD_BG.length]}
+                role={data?.role || ""}
+                topicsToFocus={data?.topicsToFocus || ""}
+                experience={data?.experience || "-"}
+                questions={data?.questions?.length || "-"}
+                description={data?.description || ""}
+                lastUpdated={
+                  data?.updatedAt ? moment(data.updatedAt).format("Do MMM YYYY") : ""
+                }
+                onSelect={() => navigate(`/interview-prep/${data?._id}`)}
+                onDelete={() => setOpenDeleteAlert({ open: true, data })}
+              />
+            </div>
           ))}
 
         </div>
@@ -81,6 +87,21 @@ const Dashboard = () => {
           Add New
         </button>
       </div>
+
+
+      <Model isOpen={openCreateModel}
+        onClose={() => {
+          setOpenCreateModel(false);
+        }}
+        hideHeader
+      >
+        <div>
+          <CreateSessionForm />
+        </div>
+
+      </Model>
+
+
 
     </DashboardLayout>
   )

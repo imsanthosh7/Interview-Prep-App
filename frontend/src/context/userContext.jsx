@@ -9,8 +9,7 @@ export const UserContext = createContext();
 export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(user)
-
+  
   // backend url 
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
