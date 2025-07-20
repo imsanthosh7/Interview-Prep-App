@@ -41,16 +41,47 @@ const CreateSessionForm = () => {
         setError("");
         setLoading(true)
 
-        const response = await axios.post(`${baseUrl}${API_PATHS.SESSION.CREATE}`, {
-            role,
-            experience,
-            topicsToFocus,
-            description
-        }, {
-            withCredentials: true,
-        })
 
-        if (response)
+        try {
+
+            const aiResponse = await axios.post(`${baseUrl}${API_PATHS.AI.GENERATE_QUESTIONS}`, {
+                role,
+                experience,
+                topicsToFocus,
+                numberOfQuestions: 10,
+            }, {
+                withCredentials: true,
+            });
+
+            const generatedQuestions = aiResponse.data;
+
+
+            const response = await axios.post(`${baseUrl}${API_PATHS.SESSION.CREATE}`, {
+                ...formData,
+                questions: generatedQuestions,
+            }, {
+                withCredentials: true,
+            });
+
+            console.log(response.data?.session?._id);
+
+
+            if (response.data?.session?._id) {
+                navigate(`/interview-prep/${response.data?.session?._id}`);
+            }
+
+        } catch (error) {
+            if (error.response && error.response.data.message) {
+                setError(error.response.data.message);
+            } else {
+                setError("Something went worn. Please try again.")
+            }
+        } finally {
+            setLoading(false);
+        }
+
+
+
     }
 
     return (
