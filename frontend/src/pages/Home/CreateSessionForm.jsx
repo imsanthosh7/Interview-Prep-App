@@ -63,8 +63,7 @@ const CreateSessionForm = () => {
                 withCredentials: true,
             });
 
-            console.log(response.data?.session?._id);
-
+        
 
             if (response.data?.session?._id) {
                 navigate(`/interview-prep/${response.data?.session?._id}`);
