@@ -51,8 +51,23 @@ const InterviewPrep = () => {
   }
 
   // pin questions 
-  const togglePinQuestionsStatus = async () => {
+  const togglePinQuestionsStatus = async (questionId) => {
+    try {
+      const respones = await axios.post(`${baseUrl}${API_PATHS.QUESTION.PIN(questionId)}`,
+        {},
+        {
+          withCredentials: true,
+        })
+  
 
+      if (respones.data && respones.data.question) {
+        fetchSessionDetailsById();
+        toast.success("Successfully pinned")
+      }
+
+    } catch (error) {
+      console.error(error.message)
+    }
   }
 
   // add more questions to a session 
@@ -90,35 +105,37 @@ const InterviewPrep = () => {
         <div className='grid grid-cols-12 gap-4 mt-4 mb-10'>
           <div className={`col-span-12 ${openLearnMoreDrawer ? "col-span-7" : "col-span-8"}`}>
             <AnimatePresence>
-              {sessionData?.questions?.map((data, idx) => {
-                return (
-                  <motion.div
-                    key={data._id || idx}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      duration: 0.4,
-                      type: "spring",
-                      stiffness: 100,
-                      delay: idx * 0.1,
-                      damping: 15,
-                    }}
-                    layout
-                    layoutId={`question-${data._id || idx}`}
-                  >
-                    <>
-                      <QuestionCard
-                        question={data?.question}
-                        answer={data?.answer}
-                        onLearnMore={() => generateConceptExplanation(data.question)}
-                        isPinned={data?.isPinned}
-                        onTogglePin={() => togglePinQuestionsStatus(data._id)}
-                      />
-                    </>
-                  </motion.div>
-                )
-              })}
+              {sessionData?.questions?.slice()
+                .sort((a, b) => b.isPinned - a.isPinned)
+                .map((data, idx) => {
+                  return (
+                    <motion.div
+                      key={data._id || idx}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{
+                        duration: 0.4,
+                        type: "spring",
+                        stiffness: 100,
+                        delay: idx * 0.1,
+                        damping: 15,
+                      }}
+                      layout
+                      layoutId={`question-${data._id || idx}`}
+                    >
+                      <>
+                        <QuestionCard
+                          question={data?.question}
+                          answer={data?.answer}
+                          onLearnMore={() => generateConceptExplanation(data.question)}
+                          isPinned={data?.isPinned}
+                          onTogglePin={() => togglePinQuestionsStatus(data._id)}
+                        />
+                      </>
+                    </motion.div>
+                  )
+                })}
             </AnimatePresence>
           </div>
         </div>
