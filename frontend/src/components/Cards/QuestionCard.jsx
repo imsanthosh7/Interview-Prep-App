@@ -32,8 +32,9 @@ const QuestionCard = ({
 
   return (
     <div className='bg-white rounded-lg mb-4 overflow-hidden py-4 px-5 shadow-xl shadow-gray-100/70 border border-gray-100/60 group'>
-      <div className='flex items-start justify-between cursor-pointer'>
-        <div className='flex items-start gap-3.5' onClick={toggleExpand}>
+      
+      <div className='flex items-center h-8  justify-between cursor-pointer'>
+        <div className='flex items-start  gap-2' onClick={toggleExpand}>
           <span className='text-xs md:text-[15px] font-semibold text-gray-400 leading-[18px]'>
             Q
           </span>
@@ -76,7 +77,7 @@ const QuestionCard = ({
       </div>
 
       <div
-        className='overflow-hidden transition-all duration-300 ease-in-out'
+        className='overflow-hidden transition-all duration-300 ease-in-out '
         style={{ maxHeight: `${height}px` }}
       >
         <div

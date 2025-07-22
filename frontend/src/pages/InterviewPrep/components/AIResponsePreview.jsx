@@ -8,6 +8,7 @@ import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Markdown from 'react-markdown';
 
 
+
 const AIResponsePreview = ({ content }) => {
   if (!content) return null;
 
@@ -15,7 +16,7 @@ const AIResponsePreview = ({ content }) => {
 
 
   return (
-    <div className='max-w-4xl mx-auto'>
+    <div className='max-w-4xl'>
       <div className='text-[14px] prose prose-slat dark:prose-invert max-w-none'>
         <Markdown
           remarkPlugins={[remarkGfm]}
