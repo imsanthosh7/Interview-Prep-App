@@ -12,7 +12,7 @@ const AIResponsePreview = ({ content }) => {
   if (!content) return null;
 
 
-  
+
 
   return (
     <div className='max-w-4xl mx-auto'>
@@ -131,7 +131,7 @@ function CodeBlock({ code, language }) {
       </div>
       <button
         onClick={copyCode}
-        className='text-gray-500 hover:text-gray-700 focus:outline-none relative group'
+        className='text-gray-500 hover:text-gray-700 focus:outline-none relative group cursor-pointer'
         aria-label='Copy code'
       >
         {copied ? (
@@ -140,9 +140,10 @@ function CodeBlock({ code, language }) {
           <Copy size={16} />
         )}
         {copied && (
-          <span className='absolute -top-8 right-0 bg-black text-white text-xs rounded-md px-2 py-1 opacity-80 group-hover:opacity-100 transition'>
+          <span className='absolute -top-1 right-5 z-10 bg-black text-white text-xs rounded-md px-2 py-1 opacity-80 group-hover:opacity-100 transition'>
             Copied!
           </span>
+
         )}
 
 

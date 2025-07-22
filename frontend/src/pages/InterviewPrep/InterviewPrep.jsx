@@ -62,7 +62,6 @@ const InterviewPrep = () => {
 
       if (respones.data && respones.data.question) {
         fetchSessionDetailsById();
-        toast.success("Successfully pinned")
       }
 
     } catch (error) {
