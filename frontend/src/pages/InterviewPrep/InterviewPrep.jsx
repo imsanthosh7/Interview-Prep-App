@@ -12,6 +12,7 @@ import { API_PATHS } from '../../utils/apipath.js';
 import QuestionCard from '../../components/Cards/QuestionCard.jsx';
 import AIResponsePreview from './components/AIResponsePreview.jsx';
 import Drawer from '../../components/Drawer.jsx';
+import SpinnerLoader from '../../components/Loader/SpinnerLoader';
 
 
 const InterviewPrep = () => {
@@ -96,7 +97,43 @@ const InterviewPrep = () => {
 
   // add more questions to a session 
   const uploadMoreQuestions = async () => {
+    try {
+      setUpdateLoader(true);
 
+      const aiResponse = await axios.post(`${baseUrl}${API_PATHS.AI.GENERATE_QUESTIONS}`, {
+        role: sessionData?.role,
+        experience: sessionData?.experience,
+        topicsToFocus: sessionData?.topicsToFocus,
+        numberOfQuestions: 5,
+      }, {
+        withCredentials: true,
+      });
+
+      const generatedQuestions = aiResponse.data;
+
+
+      const response = await axios.post(`${baseUrl}${API_PATHS.QUESTION.ADD_TO_SESSION}`, {
+        sessionId,
+        questions: generatedQuestions,
+      }, {
+        withCredentials: true,
+      });
+
+
+      if (response.data) {
+        toast.success("Added More Q&A");
+        fetchSessionDetailsById();
+      }
+
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went worn. Please try again.")
+      }
+    } finally {
+      setUpdateLoader(false);
+    }
   }
 
   useEffect(() => {
@@ -186,6 +223,7 @@ const InterviewPrep = () => {
                               }}
                               layout
                               layoutId={`question-${data._id || idx}`}
+
                             >
                               <QuestionCard
                                 question={data?.question}
@@ -198,9 +236,23 @@ const InterviewPrep = () => {
                           ))}
                         </>
                       )}
+                      {!isLoading &&
+                        sessionData?.questions?.length === (pinned.length + unpinned.length) && (
+                          <div className='mt-4 flex justify-center'>
+                            <button
+                              className='flex items-center gap-2 px-4 py-2 bg-black rounded-md text-sm text-white hover:bg-gray-900 cursor-pointer transition'
+                              disabled={isLoading || isUpdateLoader}
+                              onClick={uploadMoreQuestions}
+                            >
+                              {isUpdateLoader ? <SpinnerLoader /> : <ListCollapse />}
+                              Load More
+                            </button>
+                          </div>
+                        )}
                     </>
                   );
                 })()}
+
               </AnimatePresence>
             </div>
             <div className='col-span-5'>
