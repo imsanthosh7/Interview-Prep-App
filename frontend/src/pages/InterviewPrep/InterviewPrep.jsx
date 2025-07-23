@@ -13,6 +13,7 @@ import QuestionCard from '../../components/Cards/QuestionCard.jsx';
 import AIResponsePreview from './components/AIResponsePreview.jsx';
 import Drawer from '../../components/Drawer.jsx';
 import SpinnerLoader from '../../components/Loader/SpinnerLoader';
+import SkeletonLoader from '../../components/Loader/SkeletonLoader.jsx';
 
 
 const InterviewPrep = () => {
@@ -268,6 +269,7 @@ const InterviewPrep = () => {
                     </p>
                   )
                 }
+                {isLoading && <SkeletonLoader />}
                 {
                   !isLoading && explanation && (
                     <AIResponsePreview content={explanation?.explanation} />

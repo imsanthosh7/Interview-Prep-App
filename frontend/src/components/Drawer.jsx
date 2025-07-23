@@ -1,4 +1,3 @@
-import React, { Children } from 'react'
 import { X } from 'lucide-react';
 
 const Drawer = ({
