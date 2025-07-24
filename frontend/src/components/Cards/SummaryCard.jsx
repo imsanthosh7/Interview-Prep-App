@@ -40,13 +40,13 @@ const SummaryCard = ({
                 </div>
             </div>
 
-            <button className='hidden group-hover:flex items-center gap-2 text-xs text-rose-500 font-medium bg-rose-50 px-3 py-1 rounded text-nowrap border border-rose-100 hover:border-rose-200 cursor-pointer absolute top-0 right-0'
+            <button className='md:hidden group-hover:flex items-center gap-2 text-xs text-rose-500 bg-white/30 backdrop-blur-md px-3 py-1 rounded text-nowrap border border-white/40 cursor-pointer absolute top-0 right-0'
                 onClick={(e) => {
                     e.stopPropagation();
                     onDelete();
                 }}
             >
-                <Trash2 />
+                <Trash2 className='size-5 hover:scale-105 duration-150' />
             </button>
         </div>
 

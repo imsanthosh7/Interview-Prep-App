@@ -11,6 +11,7 @@ import moment from 'moment';
 import Model from '../../components/Modal.jsx'
 import { createSwapy } from 'swapy';
 import CreateSessionForm from './CreateSessionForm.jsx';
+import DeleteAlertContent from '../../components/DeleteAlertContent.jsx';
 
 
 const Dashboard = () => {
@@ -49,7 +50,23 @@ const Dashboard = () => {
 
   }
 
-  const deleteAllSessions = async () => {
+  const deleteSession = async (sessionData) => {
+
+    try {
+      await axios.delete(`${baseUrl}${API_PATHS.SESSION.DELETE(sessionData?._id)}`, {
+        withCredentials: true,
+      })
+      toast.success("Session Dleted Successfully");
+
+      setOpenDeleteAlert({
+        open: false,
+        data: null,
+      })
+
+      fetchAllsessions();
+    } catch (error) {
+      console.error("Error deleting session data:", error)
+    }
 
   }
 
@@ -101,7 +118,21 @@ const Dashboard = () => {
 
       </Model>
 
-
+      <Model
+        isOpen={openDeleteAlert?.open}
+        onClose={() => {
+          setOpenDeleteAlert({ open: false, data: null })
+        }}
+        title="Delete Alert"
+      >
+        <div>
+          <DeleteAlertContent
+            content="Are you sure you want to delete this session detail?"
+            onDelete={() => deleteSession(openDeleteAlert.data)}
+            setOpenDeleteAlert={setOpenDeleteAlert}
+          />
+        </div>
+      </Model>
 
     </DashboardLayout>
   )
