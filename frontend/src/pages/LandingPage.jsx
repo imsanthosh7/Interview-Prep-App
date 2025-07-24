@@ -52,7 +52,7 @@ const LandingPage = ({
       <nav>
         <div className="w-full flex justify-between px-5 md:px-40 py-5">
           <div>
-            <h1 className="text-2xl font-bold">Lorem ipsum</h1>
+            <h1 className="text-2xl font-bold">QuickPrep AI</h1>
           </div>
           <div>
             {user ? (

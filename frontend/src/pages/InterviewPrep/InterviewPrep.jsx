@@ -241,11 +241,11 @@ const InterviewPrep = () => {
                         sessionData?.questions?.length === (pinned.length + unpinned.length) && (
                           <div className='mt-4 flex justify-center'>
                             <button
-                              className='flex items-center gap-2 px-4 py-2 bg-black rounded-md text-sm text-white hover:bg-gray-900 cursor-pointer transition'
+                              className='flex items-center gap-2 px-4 py-2 bg-black rounded-md text-sm text-white hover:bg-neutral-800 cursor-pointer transition'
                               disabled={isLoading || isUpdateLoader}
                               onClick={uploadMoreQuestions}
                             >
-                              {isUpdateLoader ? <SpinnerLoader /> : <ListCollapse />}
+                              {isUpdateLoader ? <SpinnerLoader /> : <ListCollapse className='size-5' />}
                               Load More
                             </button>
                           </div>

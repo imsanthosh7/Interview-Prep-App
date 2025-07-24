@@ -235,6 +235,40 @@ b {
   @apply flex items-center justify-center gap-3 bg-linear-to-r from-[#7D1C4A] to-[#670D2F] text-sm font-semibold text-white px-7 py-2 rounded-lg hover:bg-black hover:text-white cursor-pointer hover:shadow-2xl hover:shadow-[#FFEEF4];
 }
 
+
+@keyframes blob1 {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(20px, -10px);
+  }
+}
+
+@keyframes blob2 {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-15px, 20px);
+  }
+}
+
+.animate-blob1 {
+  animation: blob1 8s infinite ease-in-out;
+}
+
+.animate-blob2 {
+  animation: blob2 10s infinite ease-in-out;
+}
+
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -375,6 +409,3 @@ b {
     transform: rotate(1turn)
   }
 }
-
-
-
