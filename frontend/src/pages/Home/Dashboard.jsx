@@ -120,10 +120,10 @@ const Dashboard = () => {
             </div>
 
             <button
-              className='h-12 md:h-12 flex gap-1  bg-black text-white px-6 py-3 rounded-full hover:bg-neutral-800 cursor-pointer transition-all fixed bottom-10 md:bottom-20 right-10 md:right-20'
+              className='h-12 md:h-12 flex gap-1 group bg-black text-white px-6 py-3 rounded-full hover:bg-neutral-800 cursor-pointer transition-all fixed bottom-10 md:bottom-20 right-10 md:right-20'
               onClick={() => setOpenCreateModel(true)}
             >
-              <Plus className='text-2xl text-white' />
+              <Plus className='text-2xl group-hover:rotate-180 transition-all duration-150 text-white' />
               Add New
             </button>
           </div>

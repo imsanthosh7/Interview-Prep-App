@@ -7,7 +7,7 @@ const Drawer = ({
     children,
 }) => {
 
-    return <div className={`fixed top-[64px] right-0 z-40 h-[calc(100dvh-64px)] p-4  overflow-y-auto transition-transform bg-white w-full md:w-[40vw] shadow-2xl shadow-cyan-800/10 border-r border-l-gray-800 ${isOpen ? "translate-x-0" : "translate-x-full"
+    return <div className={`fixed top-[80px] md:top-[72px] right-0 z-40 h-[calc(100dvh-64px)] p-4  overflow-y-auto transition-transform bg-white w-full md:w-[40vw] shadow-2xl shadow-cyan-800/10 border-r border-l-gray-800 ${isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         tabIndex="-1"
         aria-labelledby='drawer-right-label'
@@ -18,7 +18,7 @@ const Drawer = ({
                 {title}
             </h5>
             {/* Close Button */}
-            <button type='button' onClick={onClose} className='text-gray-400 cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex items-center justify-center'>
+            <button type='button' onClick={onClose} className='text-gray-400 bg-transparent hover:bg-gray/25 hover:text-gray-900 cursor-pointer rounded-lg text-sm w-7 h-7 inline-flex items-center justify-center'>
                 <X className='text-lg' />
             </button>
         </div>

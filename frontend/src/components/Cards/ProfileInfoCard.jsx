@@ -30,27 +30,25 @@ const ProfileInfoCard = () => {
     return (
         <div className="relative flex  items-center" ref={dropdownRef}>
             <div
-                className="border-2 border-neutral-200 rounded-full cursor-pointer"
+                className="rounded-full cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div className="w-11 h-11 rounded-full border-2 border-neutral-200 bg-pink-600 flex items-center justify-center text-2xl  font-semibold text-white overflow-hidden">
-                    <div className="w-11 h-11 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
-                        {loading ? (
-                            <div className="w-full h-full animate-pulse bg-gray-300 rounded-full"></div>
-                        ) : user?.profileImageUrl ? (
-                            <img
-                                src={user.profileImageUrl}
-                                alt="User"
-                                className="w-full h-full object-cover rounded-full"
-                            />
-                        ) : (
-                            <span className="text-lg font-semibold text-white bg-blue-500 w-full h-full flex items-center justify-center rounded-full">
-                                {user?.name?.charAt(0)?.toUpperCase() || "U"}
-                            </span>
-                        )}
-                    </div>
-
+                <div className="w-11 h-11 rounded-full border-2 border-neutral-200 overflow-hidden bg-gray-200 flex items-center justify-center">
+                    {loading ? (
+                        <div className="w-full h-full animate-pulse bg-gray-300 rounded-full"></div>
+                    ) : user?.profileImageUrl ? (
+                        <img
+                            src={user.profileImageUrl}
+                            alt="User"
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <span className="text-lg font-semibold text-white bg-blue-500 w-full h-full flex items-center justify-center rounded-full">
+                            {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                        </span>
+                    )}
                 </div>
+
 
             </div>
 

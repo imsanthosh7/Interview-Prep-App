@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Wifi, Zap, Sparkles, } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Sparkles, CircleUser } from "lucide-react";
 import hero_img from "/src/assets/hero-img.png";
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal'
@@ -10,16 +9,7 @@ import { UserContext } from "../context/userContext";
 import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
 
 
-const LandingPage = ({
-
-  icon,
-  heading,
-  description,
-  button,
-  trustText,
-  imageSrc,
-  imageAlt,
-}) => {
+const LandingPage = () => {
 
   const navigate = useNavigate();
 
@@ -30,13 +20,6 @@ const LandingPage = ({
   const { user } = useContext(UserContext);
 
 
-  // Default props fallback
-  const defaultIcon = <Wifi className="size-6" />;
-  const defaultButton = {
-    text: " Get Started",
-    // icon: <Zap className="size-4" />,
-    url: "/",
-  };
 
 
   const handelCTA = () => {
@@ -50,7 +33,7 @@ const LandingPage = ({
   return (
     <>
       <nav>
-        <div className="w-full flex justify-between px-5 md:px-40 py-5">
+        <div className="w-full items-center flex justify-between  mx-auto px-6 md:px-15 py-5 md:py-5">
           <div>
             <h1 className="text-2xl font-bold">QuickPrep AI</h1>
           </div>
@@ -58,11 +41,11 @@ const LandingPage = ({
             {user ? (
               <ProfileInfoCard />
             ) : (
-              <Button
+              <button
                 onClick={() => setOpenAuthModal(true)}
-                className="cursor-pointer text-lg rounded-full" >
-                Login
-              </Button>
+                className="cursor-pointer text-lg rounded-full text-white bg-black px-3 py-1 hover:bg-neutral-800 transition-all duration-150 flex items-center gap-1" >
+                <span><CircleUser className="size-5" /></span>Login
+              </button>
             )
 
             }
@@ -71,62 +54,58 @@ const LandingPage = ({
       </nav>
 
       {/* hero  section  */}
-      <section
-        className="overflow-hidden py-32 md:mx-10 mx-5 rounded-4xl bg-cover bg-color bg-center bg-no-repeat bg-image"
+      <section className="relative  overflow-hidden pt-28 pb-16 md:mx-10 mx-5 rounded-4xl bg-cover bg-center bg-no-repeat">
+        <div className="absolute inset-0  bg-color z-0" />
 
-      >
-        <div className="">
+        {/* Smooth fade at the bottom */}
+        <div className="absolute bottom-0 left-0 w-full h-160 bg-gradient-to-t from-white to-transparent z-10" />
+
+
+        <div className="relative z-10">
           <div className="flex flex-col gap-5">
-            <div className="relative flex flex-col z-3 gap-5">
-              {/* Radial border background effect */}
-              <div
-                className="absolute  top-1/2 left-1/2  -z-10 mx-auto size-[800px] rounded-full border border-gray p-16 md:size-[1300px] md:p-32"
-                style={{ transform: "translate(-50%, -50%)" }}
-              >
-                <div className="size-full rounded-full border p-16 md:p-32 border-gray">
-                  <div className="size-full rounded-full border border-gray " />
-                </div>
+            <div className="relative flex flex-col gap-5">
+              {/* Tag */}
+              <div className="relative w-fit  mx-auto rounded-full shine-border px-[3px] py-[3px]">
+                <button className="text-white text-base md:text-lg flex gap-2 font-semibold items-center justify-center bg-black/90 rounded-full px-5 py-2 z-10">
+                  <Sparkles className="size-5" />
+                  AI Powered
+                </button>
               </div>
 
-              {/* Icon */}
-              <div className="mx-auto text-white flex gap-2 font-semibold items-center justify-center rounded-full border px-3 py-3 border-gray ">
-                <Sparkles className="size-5 " /> AI Powered
-              </div>
+
+
 
               {/* Heading */}
-              <h2 className="mx-auto max-w-4xl text-center text-3xl font-medium text-balance text-white md:text-6xl">
-                {heading || " Ace Interviews with AI-Powered Learning"}
+              <h2 className="mx-auto max-w-4xl text-center text-3xl font-medium text-black/80 md:text-6xl">
+                Ace Interviews with AI-Powered Learning
               </h2>
 
               {/* Description */}
-              <p className="mx-auto max-w-3xl text-center text-muted-foreground md:text-lg">
-                {description ||
-                  " Get role-specific questions, expand answers when you need them, dive deeper into concepts, and organize everything your way. From preparation to mastery - your ultimate interview toolkit is here."}
+              <p className="mx-auto max-w-3xl text-center md:text-xl text-neutral-800/80">
+                Get role-specific questions, expand answers when you need them, dive deeper into concepts, and organize everything your way. From preparation to mastery - your ultimate interview toolkit is here.
               </p>
 
-              {/* Button and Trust Text */}
+              {/* Button */}
               <div className="flex flex-col items-center justify-center gap-3 pt-3 pb-12">
-                <Button
+                <button
                   onClick={() => handelCTA()}
-                  className="upsale-button text-xl rounded-full cursor-pointer"
+                  className="text-lg bg-black text-white px-4 py-2 rounded-full hover:bg-neutral-800 transition-all duration-150"
                 >
                   <span>Get Started</span>
-                </Button>
-                {trustText && (
-                  <div className="text-xs text-muted-foreground">{trustText}</div>
-                )}
+                </button>
               </div>
             </div>
 
             {/* Hero Image */}
             <img
-              src={imageSrc || hero_img}
-              alt={imageAlt || "placeholder"}
-              className="md:mx-auto z-5 h-full max-h-[524px] max-w-5xl border-2 border-gray-100 shadow-lg rounded-2xl object-cover"
+              src={hero_img}
+              alt="placeholder"
+              className="mx-auto w-[350px] md:w-auto z-10 h-full max-h-[524px] max-w-5xl border-6 border-gray-200 shadow-lg rounded-2xl object-cover"
             />
           </div>
         </div>
       </section>
+
 
 
 
