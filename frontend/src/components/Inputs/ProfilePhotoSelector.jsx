@@ -50,14 +50,13 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
                 />
 
                 {!image ? (
-                    <div className='w-20 h-20 flex items-center justify-center bg-[#FFEEF4] rounded-full relative cursor-pointer'>
-                        <User className='text-4xl text-[#670D2F]' />
+                    <div onClick={onChooseFile} className='w-20 h-20 flex items-center justify-center bg-rose-500/10 rounded-full relative cursor-pointer'>
+                        <User className='text-4xl text-rose-500' />
                         <button
                             type='button'
-                            className='w-8 h-8 flex items-center justify-center bg-linear-to-r from-[#7D1C4A] to-[#670D2F] text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer'
-                            onClick={onChooseFile}
+                            className='w-8 h-8 flex items-center justify-center bg-rose-500 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer'
                         >
-                            <Upload />
+                            <Upload className='size-5' />
                         </button>
                     </div>
                 ) : (

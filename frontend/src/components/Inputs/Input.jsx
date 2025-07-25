@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
+import { Eye, EyeOff } from 'lucide-react';
 
 
 const Input = ({ value, onChange, label, placeholder, type }) => {
@@ -11,7 +11,7 @@ const Input = ({ value, onChange, label, placeholder, type }) => {
     };
 
     return <div>
-        <label className='text-[13px] text-slate-800'>{label}</label>
+        <label className=' text-[15px] md:text-[14px] text-slate-800'>{label}</label>
 
         <div className='input-box'>
             <input
@@ -26,19 +26,19 @@ const Input = ({ value, onChange, label, placeholder, type }) => {
 
             {type === "password" && (
                 <>
-                    {/* {showPassword ? (
-                    <FaRegEye
-                        size={22}
-                        className='text-[#670D2F] cursor-pointer'
-                        onClick={() => toggleShowPassword()}
-                    />
-                ) : (
-                    <FaRegEyeSlash
-                        size={22}
-                        className='text-slate-400 cursor-pointer'
-                        onClick={() => toggleShowPassword()}
-                    />
-                )} */}
+                    {showPassword ? (
+                        <Eye
+                            size={22}
+                            className='text-neutral-600 cursor-pointer'
+                            onClick={() => toggleShowPassword()}
+                        />
+                    ) : (
+                        <EyeOff
+                            size={22}
+                            className='text-slate-400 cursor-pointer'
+                            onClick={() => toggleShowPassword()}
+                        />
+                    )}
                 </>
             )}
         </div>

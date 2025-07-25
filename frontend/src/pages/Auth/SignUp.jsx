@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { useContext } from 'react';
 import { UserContext } from '../../context/userContext.jsx';
 import { uploadImage } from '../../utils/uploadImage.js'
+import SpinnerLoader from '@/components/Loader/SpinnerLoader';
 
 
 
@@ -23,6 +24,7 @@ const SignUp = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
 
@@ -55,6 +57,8 @@ const SignUp = ({ setCurrentPage }) => {
 
     setError("")
 
+    setLoading(true);
+
     try {
 
       if (profilePic) {
@@ -65,6 +69,12 @@ const SignUp = ({ setCurrentPage }) => {
       const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { name: fullName, email, password, profileImageUrl }, {
         withCredentials: true,
       });
+
+      // Check backend response status
+      if (response.data.success === false) {
+        setError(response.data.message || "Login failed.");
+        return;
+      }
 
       const { token } = response.data;
 
@@ -80,13 +90,15 @@ const SignUp = ({ setCurrentPage }) => {
       } else {
         toast.error("Something went wrong. Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div className='w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center'>
-      <h3 className='text-lg font-semibold text-black'>Create an Account</h3>
-      <p className='text-xs text-slate-700 mt-[5px] mb-6'>
+      <h3 className='text-xl font-semibold text-black'>Create an Account</h3>
+      <p className='text-lg text-slate-700 mt-[5px] mb-6'>
         Join us today by entering your details below.
       </p>
 
@@ -121,11 +133,11 @@ const SignUp = ({ setCurrentPage }) => {
         </div>
 
         {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
-        <button type='submit' className='btn-primary'> SIGN UP</button>
-        <p className='text-[13px] text-slate-800 mt-3'>
+        <button disabled={loading} type='submit' className='btn-primary'>{loading ? <SpinnerLoader /> : "SIGN UP"}</button>
+        <p className='text-[14px] text-slate-800 mt-3'>
           Already an account?{" "}
           <button
-            className='font-medium text-[#670D2F] underline cursor-pointer'
+            className='font-medium text-red-500 underline cursor-pointer'
             onClick={() => {
               setCurrentPage("login");
             }}

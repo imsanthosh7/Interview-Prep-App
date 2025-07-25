@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 const ProfileInfoCard = () => {
-    const { user, clearUser } = useContext(UserContext);
+    const { user, clearUser, loading } = useContext(UserContext);
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef();
-   
-   
+
+
     const handleLogout = () => {
         clearUser();
         localStorage.clear();
@@ -34,15 +34,22 @@ const ProfileInfoCard = () => {
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <div className="w-11 h-11 rounded-full border-2 border-neutral-200 bg-pink-600 flex items-center justify-center text-2xl  font-semibold text-white overflow-hidden">
-                    {user?.profileImageUrl ? (
-                        <img
-                            src={user?.profileImageUrl}
-                            alt="User"
-                            className="w-full h-full object-cover rounded-full"
-                        />
-                    ) : (
-                        user?.name?.charAt(0)?.toUpperCase() || "U"
-                    )}
+                    <div className="w-11 h-11 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                        {loading ? (
+                            <div className="w-full h-full animate-pulse bg-gray-300 rounded-full"></div>
+                        ) : user?.profileImageUrl ? (
+                            <img
+                                src={user.profileImageUrl}
+                                alt="User"
+                                className="w-full h-full object-cover rounded-full"
+                            />
+                        ) : (
+                            <span className="text-lg font-semibold text-white bg-blue-500 w-full h-full flex items-center justify-center rounded-full">
+                                {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                            </span>
+                        )}
+                    </div>
+
                 </div>
 
             </div>

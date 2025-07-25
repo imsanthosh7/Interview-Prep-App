@@ -6,6 +6,7 @@ import { API_PATHS } from '../../utils/apipath.js';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { UserContext } from '../../context/userContext.jsx';
+import SpinnerLoader from '@/components/Loader/SpinnerLoader';
 
 
 
@@ -16,6 +17,7 @@ const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -38,6 +40,8 @@ const Login = ({ setCurrentPage }) => {
     }
 
     setError("");
+
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -69,14 +73,16 @@ const Login = ({ setCurrentPage }) => {
       } else {
         setError("Something went wrong. Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       <div className='w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center'>
-        <h3 className='text-lg font-semibold text-black'>Welcome Back</h3>
-        <p className='text-xs text-slate-700 mt-[5px] mb-6'>
+        <h3 className='text-xl font-semibold text-black'>Welcome Back</h3>
+        <p className='text-lg text-slate-700 mt-[5px] mb-6'>
           Please enter your details to log in
         </p>
 
@@ -99,10 +105,10 @@ const Login = ({ setCurrentPage }) => {
 
           {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
 
-          <button type='submit' className='btn-primary'>LOGIN</button>
-          <p className='text-[13px] text-slate-800 mt-3'>Don't have an account?{" "}
+          <button disabled={loading} type='submit' className='btn-primary'> {loading ? <SpinnerLoader /> : "LOGIN"}</button>
+          <p className='text-[14px] text-slate-800 mt-3'>Don't have an account?{" "}
             <button
-              className='font-medium text-[#670D2F] underline cursor-pointer'
+              className='font-medium text-rose-500 underline cursor-pointer'
               onClick={() => {
                 setCurrentPage("signUp");
               }}
