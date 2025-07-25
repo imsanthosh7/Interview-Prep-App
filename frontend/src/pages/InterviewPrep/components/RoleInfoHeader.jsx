@@ -9,8 +9,8 @@ const RoleInfoHeader = ({
     lastUpdated,
 }) => {
     return (
-        <div className="relative bg-white border-b border-gray-100  overflow-hidden">
-            <div className="w-9/10 container mx-auto px-5 md:px-0 relative z-10">
+        <div className="relative  bg-white border-b border-gray-100  overflow-hidden">
+            <div className="w-9/10 container mx-auto px- md:px-0 relative z-10">
                 {/* Text content */}
                 <div className="min-h-[220px] flex flex-col justify-center py-6">
                     <div className="space-y-2">

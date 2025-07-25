@@ -8,7 +8,8 @@ const ProfileInfoCard = () => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef();
-
+   
+   
     const handleLogout = () => {
         clearUser();
         localStorage.clear();
@@ -47,7 +48,7 @@ const ProfileInfoCard = () => {
             </div>
 
             {isOpen && (
-                <div className="absolute -right-7  md:-right-10  -bottom-11 w-30 bg-white border-1 border-gray-200   rounded-sm shadow-sm z-50 overflow-hidden">
+                <div className="absolute -right-5  md:-right-10  -bottom-11 w-30 bg-white border-1 border-gray-200   rounded-sm shadow-sm z-50 overflow-hidden">
                     <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-2 px-4 py-2 text-sm cursor-pointer text-rose-600  hover:bg-rose-400/5 font-medium"

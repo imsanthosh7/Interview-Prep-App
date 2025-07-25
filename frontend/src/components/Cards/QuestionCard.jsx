@@ -31,7 +31,7 @@ const QuestionCard = ({
 
 
   return (
-    <div className='bg-white rounded-lg mb-4 overflow-hidden py-4 px-5 shadow-xl shadow-gray-100/70 border border-gray-100/60 group'>
+    <div className='bg-white rounded-lg mb-5 overflow-hidden py-4 px-5 shadow-xl shadow-gray-100/70 border border-gray-100/60 group'>
       
       <div className='flex items-center h-8  justify-between cursor-pointer'>
         <div className='flex items-start  gap-2' onClick={toggleExpand}>

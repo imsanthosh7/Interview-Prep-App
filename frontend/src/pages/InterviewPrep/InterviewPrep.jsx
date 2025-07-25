@@ -14,6 +14,7 @@ import AIResponsePreview from './components/AIResponsePreview.jsx';
 import Drawer from '../../components/Drawer.jsx';
 import SpinnerLoader from '../../components/Loader/SpinnerLoader';
 import SkeletonLoader from '../../components/Loader/SkeletonLoader.jsx';
+import { useNavigate } from 'react-router-dom';
 
 
 const InterviewPrep = () => {
@@ -27,6 +28,9 @@ const InterviewPrep = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdateLoader, setUpdateLoader] = useState(false);
 
+  
+   
+  const navigate = useNavigate();
 
   // backend url 
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -161,7 +165,30 @@ const InterviewPrep = () => {
           }
         />
 
-        <div className='container mx-auto pt-4 pb-4 px-4 md:px-0'>
+        <div className='container mx-auto pt-3 pb-4 px-4 md:px-0'>
+          <nav className="my-4 text-neutral-500 text-sm font-semibold" aria-label="Breadcrumb">
+            <ol className="list-reset flex">
+              <li>
+                <button
+                  onClick={() => navigate('/')}
+                  className="hover:underline hover:text-gray-800 cursor-pointer bg-transparent border-none p-0 m-0"
+                >
+                  Home
+                </button>
+                <span className="mx-2">/</span>
+              </li>
+              <li>
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="hover:underline hover:text-gray-800 cursor-pointer bg-transparent border-none p-0 m-0"
+                >
+                  Dashboard
+                </button>
+                <span className="mx-2">/</span>
+              </li>
+              <li className="text-neutral-600">Current Page</li>
+            </ol>
+          </nav>
           <h2 className='text-lg font-semibold text-black'>Interview Q & A</h2>
           <div className='grid grid-cols-12 gap-4 mt-4 mb-10'>
             <div className={`${openLearnMoreDrawer ? "col-span-7" : "col-span-12 md:col-span-8"}`}>
@@ -175,11 +202,11 @@ const InterviewPrep = () => {
                     <>
                       {pinned.length > 0 && (
                         <>
-                          <h3 className='text-md font-semibold text-black mb-2 flex items-center'>Pinned Questions</h3>
+                          <h3 className='text-md font-semibold text-green-500/90 mb-2 flex items-center'>Pinned Questions</h3>
                           {pinned.map((data, idx) => (
                             <motion.div
                               key={`pinned-${data._id || idx}`}
-                              initial={{ opacity: 0, y: -20 }}
+                              initial={{ opacity: 0, y: -10 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, scale: 0.95 }}
                               transition={{
@@ -207,12 +234,12 @@ const InterviewPrep = () => {
                       {unpinned.length > 0 && (
                         <>
                           {pinned.length > 0 && (
-                            <h3 className='text-md font-semibold text-gray-700 mt-6 mb-2'>All Questions</h3>
+                            <h3 className='text-md font-semibold text-gray-700/90 mt-6 mb-2'>All Questions</h3>
                           )}
                           {unpinned.map((data, idx) => (
                             <motion.div
                               key={`unpinned-${data._id || idx}`}
-                              initial={{ opacity: 0, y: -20 }}
+                              initial={{ opacity: 0, y: -15 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, scale: 0.95 }}
                               transition={{

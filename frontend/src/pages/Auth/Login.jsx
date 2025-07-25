@@ -27,46 +27,50 @@ const Login = ({ setCurrentPage }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address.")
+      setError("Please enter a valid email address.");
       return;
     }
 
     if (!password) {
-      setError("Please enter the  password")
+      setError("Please enter the password.");
       return;
     }
 
     setError("");
 
-    //  login Api call 
     try {
+      const response = await axios.post(
+        `${baseUrl}${API_PATHS.AUTH.LOGIN}`,
+        { email, password },
+        {
+          withCredentials: true,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
 
-      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.LOGIN}`, { email, password }, {
-        withCredentials: true,
-        headers: { 'Content-Type': 'application/json' }
-      });
-
+      // Check backend response status
+      if (response.data.success === false) {
+        setError(response.data.message || "Login failed.");
+        return;
+      }
 
       const { token } = response.data;
 
-
       if (token) {
         localStorage.setItem("token", token);
-        updateUser(response.data)
+        updateUser(response.data);
         navigate("/dashboard");
       }
 
     } catch (error) {
-      if (error.message) {
-        toast.error(error.message);
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
       } else {
-        toast.error("Something went wrong. Please try again.");
+        setError("Something went wrong. Please try again.");
       }
     }
-
-  }
+  };
 
   return (
     <>
