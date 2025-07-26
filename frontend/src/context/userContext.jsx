@@ -9,7 +9,10 @@ export const UserContext = createContext();
 export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
+  console.log("userdata", user);
+
+
   // backend url 
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -27,6 +30,7 @@ export const UserProvider = (props) => {
         const response = await axios.get(`${baseUrl}${API_PATHS.AUTH.GET_PROFILE}`, {
           withCredentials: true,
         });
+
         setUser(response.data)
       } catch (error) {
         console.error("User not authenticated", error);
