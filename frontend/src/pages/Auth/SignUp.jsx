@@ -133,6 +133,7 @@ const SignUp = ({ setCurrentPage }) => {
         </div>
 
         {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
+        {/* <button className='btn-primary'><a href="http://localhost:8000/api/auth/google">Login with Google</a></button> */}
         <button disabled={loading} type='submit' className='btn-primary'>{loading ? <SpinnerLoader /> : "SIGN UP"}</button>
         <p className='text-[14px] text-slate-800 mt-3'>
           Already an account?{" "}
