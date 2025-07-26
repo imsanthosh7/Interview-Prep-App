@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Sparkles, CircleUser } from "lucide-react";
+import { Sparkles, CircleUser, CirclePower } from "lucide-react";
 import hero_img from "/src/assets/hero-img.png";
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal'
@@ -7,6 +7,8 @@ import Login from './Auth/Login';
 import SignUp from "./Auth/SignUp";
 import { UserContext } from "../context/userContext";
 import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
+import Orb from "@/components/Orb";
+import BentoFeatures from "@/components/BentoFeatures";
 
 
 const LandingPage = () => {
@@ -33,7 +35,7 @@ const LandingPage = () => {
   return (
     <>
       <nav>
-        <div className="w-full items-center flex justify-between  mx-auto px-6 md:px-15 py-5 md:py-5">
+        <div className="w-full container items-center flex justify-between  mx-auto px-6 md:px-10 py-4">
           <div>
             <h1 className="text-2xl font-bold">QuickPrep AI</h1>
           </div>
@@ -53,59 +55,68 @@ const LandingPage = () => {
         </div>
       </nav>
 
-      {/* hero  section  */}
-      <section className="relative  overflow-hidden pt-28 pb-16 md:mx-10 mx-5 rounded-4xl bg-cover bg-center bg-no-repeat">
-        <div className="absolute inset-0  bg-color z-0" />
+      {/* Hero Section */}
+      <section className="mx-3 md:mx-auto">
+        <div className="relative container mx-auto overflow-hidden bg-black pt-28 pb-16 px-5 md:px-10 rounded-tl-4xl rounded-tr-4xl bg-cover bg-center bg-no-repeat">
+          {/* Orb background animation */}
+          <div className="orb-container md:-mt-14  absolute inset-0 z-0">
+            <Orb
+              hoverIntensity={1.75}
+              rotateOnHover={true}
+              hue={0}
+              forceHoverState={false}
+            />
+          </div>
 
-        {/* Smooth fade at the bottom */}
-        <div className="absolute bottom-0 left-0 w-full h-160 bg-gradient-to-t from-white to-transparent z-10" />
+          {/* Smooth white fade at the bottom */}
+          <div className="absolute bottom-0 left-0 w-full h-52 md:h-160 bg-gradient-to-t from-white to-transparent z-10" />
 
-
-        <div className="relative z-10">
-          <div className="flex flex-col gap-5">
-            <div className="relative flex flex-col gap-5">
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto pointer-events-none">
+            <div className="flex flex-col gap-8 items-center text-center">
               {/* Tag */}
-              <div className="relative w-fit  mx-auto rounded-full shine-border px-[3px] py-[3px]">
-                <button className="text-white text-base md:text-lg flex gap-2 font-semibold items-center justify-center bg-black/90 rounded-full px-5 py-2 z-10">
+              <div className="relative w-fit rounded-full px-[3px] py-[3px] ">
+                <button className="text-black text-base md:text-lg flex gap-2 font-semibold items-center justify-center bg-white rounded-full px-5 py-2 pointer-events-auto">
                   <Sparkles className="size-5" />
                   AI Powered
                 </button>
               </div>
 
-
-
-
               {/* Heading */}
-              <h2 className="mx-auto max-w-4xl text-center text-3xl font-medium text-black/80 md:text-6xl">
+              <h2 className="max-w-4xl text-3xl md:text-6xl font-medium text-white">
                 Ace Interviews with AI-Powered Learning
               </h2>
 
               {/* Description */}
-              <p className="mx-auto max-w-3xl text-center md:text-xl text-neutral-800/80">
-                Get role-specific questions, expand answers when you need them, dive deeper into concepts, and organize everything your way. From preparation to mastery - your ultimate interview toolkit is here.
+              <p className="max-w-3xl text-white/80 text-base md:text-xl">
+                Get role-specific questions, expand answers when you need them, dive deeper into concepts, and organize everything your way. From preparation to mastery — your ultimate interview toolkit is here.
               </p>
 
-              {/* Button */}
-              <div className="flex flex-col items-center justify-center gap-3 pt-3 pb-12">
+              {/* CTA Button */}
+              <div className="relative w-fit mt-2 rounded-full shine-border px-[3px] py-[3px]">
                 <button
                   onClick={() => handelCTA()}
-                  className="text-lg bg-black text-white px-4 py-2 rounded-full hover:bg-neutral-800 transition-all duration-150"
+                  className="pointer-events-auto cursor-pointer text-white text-base md:text-lg flex gap-2 font-semibold items-center justify-center bg-black/90 rounded-full px-5 py-2 z-10"
                 >
-                  <span>Get Started</span>
+                  Get Started
                 </button>
               </div>
-            </div>
 
-            {/* Hero Image */}
-            <img
-              src={hero_img}
-              alt="placeholder"
-              className="mx-auto w-[350px] md:w-auto z-10 h-full max-h-[524px] max-w-5xl border-6 border-gray-200 shadow-lg rounded-2xl object-cover"
-            />
+              {/* Hero Image */}
+              <img
+                src={hero_img}
+                alt="placeholder"
+                className="mt-10 w-[330px] md:w-[1000px] max-h-[524px] max-w-5xl rounded-2xl object-cover border-6 border-gray-200 shadow-lg pointer-events-auto"
+              />
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Bento Features Section */}
+      <section className="px-5 md:px-10">
+        <BentoFeatures />
+      </section>
 
 
 

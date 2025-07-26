@@ -33,7 +33,7 @@ const ProfileInfoCard = () => {
                 className="rounded-full cursor-pointer"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div className="w-11 h-11 rounded-full border-2 border-neutral-200 overflow-hidden bg-gray-200 flex items-center justify-center">
+                <div className="md:w-13 md:h-13 w-11 h-11 rounded-full border-2 border-neutral-200 overflow-hidden bg-gray-200 flex items-center justify-center">
                     {loading ? (
                         <div className="w-full h-full animate-pulse bg-gray-300 rounded-full"></div>
                     ) : user?.profileImageUrl ? (

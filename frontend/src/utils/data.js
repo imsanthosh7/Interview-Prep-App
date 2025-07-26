@@ -43,4 +43,12 @@ export const APP_FEATURES = [
         description:
             "Easily save your interview sets, organize them neatly in your dashboard, and pick up your preperation right where you left off."
     },
+
+    {
+        id: "06",
+        title: "Instant AI Doubt Solver",
+        description:
+            "Stuck on a question? Ask follow-ups and get real-time AI explanations to clarify concepts instantly — like having a mentor on demand."
+    }
+
 ]

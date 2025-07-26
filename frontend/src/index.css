@@ -12,6 +12,7 @@
   --breakpoint-3xl: 1920px;
   --color-primary: #FF9324;
   --color-gray: #b4abab;
+  
 }
 
 body {
@@ -20,6 +21,7 @@ body {
   background-image: radial-gradient(circle at 0% 0%, hsla(19.326923076923077, 86%, 53%, 0.35) 3.1210986267166043%, transparent 40%), radial-gradient(circle at 100% 0%, hsla(23.823529411764703, 77%, 74%, 0.35) 3%, transparent 40%), radial-gradient(circle at 50% 0%, hsla(236.91176470588243, 77%, 74%, 0.24) 4%, transparent 40%);
   background-blend-mode: normal, normal, normal; */
   /* color: #b4abab; */
+  
 
 }
 
@@ -37,12 +39,10 @@ input:-webkit-autofill:active {
 
 
 .shine-border {
-  background: linear-gradient(
-    130deg,
-    #ffffff40,
-    #ffffffaa,
-    #ffffff40
-  );
+  background: linear-gradient(130deg,
+      #ffffff40,
+      #ffffffaa,
+      #ffffff40);
   background-size: 300% 300%;
   animation: shineMove 2.5s linear infinite;
   border-radius: 9999px;
@@ -52,15 +52,31 @@ input:-webkit-autofill:active {
   0% {
     background-position: 200% 0%;
   }
+
   100% {
     background-position: -200% 0%;
   }
 }
 
+.relative {
+  position: relative;
+}
+
+/* (From Tailwind or define yourself) */
+
+.orb-container {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  /* Make sure left is set */
+  width: 100%;
+height: 80%;
+}
 
 
 .bg-color {
-  
+
   background-color: white;
   background-image:
     radial-gradient(circle at 0% 0%, #ee612059 3.12%, transparent 40%),

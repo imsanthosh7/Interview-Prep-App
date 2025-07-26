@@ -63,7 +63,7 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
                     <div className='relative'>
                         <img src={preview || previewUrl} alt="profile photo" className='w-20 h-20 rounded-full object-cover' />
                         <button type='button' className='w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer' onClick={handleRemoveImage}>
-                            <Trash />
+                            <Trash className='size-5' />
                         </button>
                     </div>
                 )}
