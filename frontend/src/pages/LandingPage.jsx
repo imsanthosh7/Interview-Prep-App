@@ -35,7 +35,7 @@ const LandingPage = () => {
   return (
     <>
       <nav>
-        <div className="w-full container items-center flex justify-between  mx-auto px-6 md:px-10 py-4">
+        <div className="w-full max-w-7xl  items-center flex justify-between  mx-auto px-6 md:px-10 py-3">
           <div>
             <h1 className="text-2xl font-bold">QuickPrep AI</h1>
           </div>
@@ -56,8 +56,8 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="mx-3 md:mx-auto">
-        <div className="relative container mx-auto overflow-hidden bg-black pt-28 pb-16 px-5 md:px-10 rounded-tl-4xl rounded-tr-4xl bg-cover bg-center bg-no-repeat">
+      <section className="mx-3 md:mx-auto px-1 md:px-6">
+        <div className="relative max-w-7xl  mx-auto overflow-hidden bg-black pt-28 pb-16 px-5 md:px-10 rounded-tl-4xl rounded-tr-4xl bg-cover bg-center bg-no-repeat">
           {/* Orb background animation */}
           <div className="orb-container md:-mt-14  absolute inset-0 z-0">
             <Orb

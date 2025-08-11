@@ -29,7 +29,7 @@ export default function Orb({
     uniform float hue;
     uniform float hover;
     uniform float rot;
-    uniform float hoverIntensity;
+    uniform float hoverIntensity; 
     varying vec2 vUv;
 
     vec3 rgb2yiq(vec3 c) {
