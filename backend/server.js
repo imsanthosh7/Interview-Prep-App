@@ -49,10 +49,6 @@ app.use("/api/ai/generate-explanation", protect, generateConceptExplanation);
 
 
 
-
-
-
-
 app.get("/", (req, res) => {
     return res.send("hello world");
 })
