@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ChevronDown, Pin, PinOff, Sparkles } from 'lucide-react';
 import AIResponsePreview from '../../pages/InterviewPrep/components/AIResponsePreview';
+import PinSpinnerLoader from '../Loader/PinSpinnerLoader';
 
 
 
@@ -10,6 +11,7 @@ const QuestionCard = ({
   onLearnMore,
   isPinned,
   onTogglePin,
+  isLoading
 }) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -30,9 +32,29 @@ const QuestionCard = ({
   }
 
 
+  const [isTogglingPin, setIsTogglingPin] = useState(false);
+
+  const handleTogglePin = async (e) => {
+    // prevent parent click (which toggles expand)
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (!onTogglePin) return;
+
+    try {
+      setIsTogglingPin(true);
+      // support synchronous or promise-returning handlers
+      await onTogglePin();
+    } catch (err) {
+      console.error('toggle pin error', err);
+    } finally {
+      setIsTogglingPin(false);
+    }
+  };
+
+  const pinLoading = isLoading || isTogglingPin;
+
   return (
     <div className='bg-white rounded-lg mb-4 overflow-hidden py-4 px-5 shadow-xl shadow-gray-100/70 border border-gray-100/60 group'>
-      
+
       <div className='flex items-center h-8  justify-between cursor-pointer'>
         <div className='flex items-start  gap-2' onClick={toggleExpand}>
           <span className='text-xs md:text-[15px] font-semibold text-gray-400 leading-[18px]'>
@@ -44,11 +66,16 @@ const QuestionCard = ({
         </div>
         <div className='flex items-center justify-end ml-4 relative'>
           <div className={`flex ${isExpanded ? "md:flex" : "md:hidden group-hover:flex"}`}>
-            <button className='flex items-center gap-2  text-indigo-800 font-medium bg-indigo-50 px-3 py-1 mr-2 rounded text-nowrap border border-indigo-50 hover:border-indigo-200 cursor-pointer' onClick={onTogglePin}>
-              {isPinned ? (
-                <PinOff className='size-4' />
+            <button
+              className={`flex items-center gap-2  text-indigo-800 font-medium bg-indigo-50 px-3 py-1 mr-2 rounded text-nowrap border border-indigo-50 hover:border-indigo-200 ${pinLoading ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'}`}
+              onClick={handleTogglePin}
+              disabled={pinLoading}
+              aria-busy={pinLoading}
+            >
+              {pinLoading ? (
+                <PinSpinnerLoader />
               ) : (
-                <Pin className='size-4' />
+                isPinned ? <PinOff className='size-4' /> : <Pin className='size-4' />
               )}
             </button>
             <button

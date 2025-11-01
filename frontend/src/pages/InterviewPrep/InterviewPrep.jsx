@@ -27,10 +27,10 @@ const InterviewPrep = () => {
   const [explanation, setExplanation] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdateLoader, setUpdateLoader] = useState(false);
-  
 
-  
-   
+
+
+
   const navigate = useNavigate();
 
   // backend url 
@@ -85,6 +85,7 @@ const InterviewPrep = () => {
   // pin questions 
   const togglePinQuestionsStatus = async (questionId) => {
     try {
+      setIsLoading(true);
       const respones = await axios.post(`${baseUrl}${API_PATHS.QUESTION.PIN(questionId)}`,
         {},
         {
@@ -97,7 +98,10 @@ const InterviewPrep = () => {
       }
 
     } catch (error) {
+      setIsLoading(true);
       console.error(error.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -226,6 +230,7 @@ const InterviewPrep = () => {
                                 onLearnMore={() => generateConceptExplanation(data.question)}
                                 isPinned={data?.isPinned}
                                 onTogglePin={() => togglePinQuestionsStatus(data._id)}
+                                isLoading={isLoading}
                               />
                             </motion.div>
                           ))}
