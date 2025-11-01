@@ -18,7 +18,7 @@ app.use('/uploads', express.static('uploads'));
 
 connectDB();
 
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5173', 'https://interview-prep-app-woad.vercel.app']
 
 app.use(cors({
     origin: function (origin, callback) {
