@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { toast } from 'sonner';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CircleAlert, ListCollapse, ChevronRight } from 'lucide-react';
+import { CircleAlert, ListCollapse, ChevronRight, Loader2 } from 'lucide-react';
 import axios from 'axios';
 
 import { API_PATHS } from '../../utils/apipath.js';
@@ -42,14 +42,25 @@ const InterviewPrep = () => {
     }
   }
 
+  const [explanationCache, setExplanationCache] = useState({});
+
   const generateConceptExplanation = async (question) => {
+    if (explanationCache[question]) {
+      setExplanation(explanationCache[question]);
+      setOpenLearnMoreDrawer(true);
+      return;
+    }
+
     try {
       setErrormessage("");
       setExplanation(null);
       setIsLoading(true);
       setOpenLearnMoreDrawer(true);
       const respones = await axios.post(`${baseUrl}${API_PATHS.AI.GENERATE_EXPLANATION}`, { question }, { withCredentials: true })
-      if (respones.data) setExplanation(respones.data);
+      if (respones.data) {
+        setExplanation(respones.data);
+        setExplanationCache(prev => ({ ...prev, [question]: respones.data }));
+      }
     } catch (error) {
       setExplanation(null);
       setErrormessage("Failed to generate explanation (API limit reached?). Try again later.");
@@ -186,23 +197,30 @@ const InterviewPrep = () => {
                         ))}
                       </div>
 
-                      {!isUpdateLoader && sessionData && (
+                      {!isUpdateLoader ? (
                         <div className='mt-12 flex justify-center'>
                           <Button
                             onClick={uploadMoreQuestions}
                             size="lg"
                             variant="outline"
-                            className="border-white/20 hover:bg-white/10 text-white font-bold tracking-wider"
+                            className="border-white/20 hover:bg-white/10 hover:border-primary/50 text-white font-bold tracking-wider transition-all duration-300"
                           >
                             <ListCollapse className='w-4 h-4 mr-2' /> LOAD MORE QUESTIONS
                           </Button>
                         </div>
-                      )}
-                      {isUpdateLoader && (
-                        <div className="mt-8 flex justify-center p-4">
-                          <SpinnerLoader />
+                      ) : (
+                        <div className='mt-12 flex justify-center'>
+                          <Button
+                            disabled
+                            size="lg"
+                            variant="outline"
+                            className="border-white/20 text-white/50 font-bold tracking-wider cursor-not-allowed"
+                          >
+                            <Loader2 className='w-4 h-4 mr-2 animate-spin' /> GENERATING...
+                          </Button>
                         </div>
                       )}
+
                     </>
                   );
                 })()}

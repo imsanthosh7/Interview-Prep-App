@@ -8,7 +8,7 @@ const Navbar = () => {
             <div className='w-full max-w-7xl mx-auto px-6 flex items-center justify-between'>
                 <Link to="/" className="group">
                     <h2 className='text-xl font-display font-bold text-white tracking-tight flex items-center gap-1'>
-                        INTERVIEW <span className='text-primary group-hover:animate-pulse'>.AI</span>
+                        INTERVIEW PREP <span className='text-primary group-hover:animate-pulse'>.AI</span>
                     </h2>
                 </Link>
                 <ProfileInfoCard />

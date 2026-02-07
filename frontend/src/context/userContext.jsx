@@ -10,7 +10,7 @@ export const UserProvider = (props) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("userdata", user);
+  // console.log("userdata", user);
 
 
   // backend url 

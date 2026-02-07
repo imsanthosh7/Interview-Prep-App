@@ -11,7 +11,7 @@ const RoleInfoHeader = ({
     lastUpdated,
 }) => {
     return (
-        <div className="relative bg-background border-b border-white/10 py-10">
+        <div className="relative bg-background border-b border-white/10 py-10 overflow-hidden">
             <div className="container max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row gap-6 md:items-end justify-between">
                     <div>
