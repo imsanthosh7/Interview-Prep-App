@@ -4,7 +4,7 @@ import axios from 'axios';
 import { UserContext } from '../../context/userContext';
 import { API_PATHS } from '../../utils/apipath';
 import { validateEmail } from '../../utils/helper';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';

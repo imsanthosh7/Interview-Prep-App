@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { MoveRight, Star, Zap, Layers, Terminal, CheckCircle2 } from "lucide-react";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Modal from "../components/Modal";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
