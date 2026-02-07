@@ -31,15 +31,21 @@ logs/
 .DS_Store
 Thumbs.db
 
+
 # Agent & AI Tooling (Ignored as requested)
 .gemini/
 .antigravity/
 .agent/
+.agents/skills/frontend-design
 brain/
 artifacts/
 *.artifact.md
 .cursor/
 .windsurf/
+
+# Markdown Files (Ignore all except README.md)
+*.md
+!README.md
 
 # Testing & Coverage
 coverage/
