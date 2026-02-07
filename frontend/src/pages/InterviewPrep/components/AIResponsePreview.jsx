@@ -5,7 +5,7 @@ import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Markdown from 'react-markdown';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const AIResponsePreview = ({ content }) => {
   if (!content) return null;

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_PATHS } from '../../utils/apipath';
 import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/Label';
 import SpinnerLoader from '@/components/Loader/SpinnerLoader';
 import { Briefcase, Clock, FileText, Target, AlertCircle } from 'lucide-react';

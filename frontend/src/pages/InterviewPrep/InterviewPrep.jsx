@@ -14,7 +14,7 @@ import AIResponsePreview from './components/AIResponsePreview.jsx';
 import Drawer from '../../components/Drawer.jsx';
 import SpinnerLoader from '../../components/Loader/SpinnerLoader';
 import SkeletonLoader from '../../components/Loader/SkeletonLoader.jsx';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const InterviewPrep = () => {
 

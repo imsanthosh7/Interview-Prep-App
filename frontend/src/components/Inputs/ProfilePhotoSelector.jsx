@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { User, Upload, Trash } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
     const inputRef = useRef(null);

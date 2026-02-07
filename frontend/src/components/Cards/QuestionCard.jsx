@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Pin, PinOff, Sparkles } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import AIResponsePreview from '../../pages/InterviewPrep/components/AIResponsePreview';
 import PinSpinnerLoader from '../Loader/PinSpinnerLoader';
 

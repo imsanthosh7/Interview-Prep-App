@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const GoogleOAuthButton = ({ text = "Continue with Google" }) => {
     const handleGoogleLogin = () => {

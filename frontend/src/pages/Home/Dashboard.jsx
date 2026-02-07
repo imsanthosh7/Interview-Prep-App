@@ -15,7 +15,7 @@ import Model from '../../components/Modal.jsx';
 import CreateSessionForm from './CreateSessionForm.jsx';
 import DeleteAlertContent from '../../components/DeleteAlertContent.jsx';
 import SkeletonGrid from '../../components/Loader/SkeletonGrid.jsx';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
