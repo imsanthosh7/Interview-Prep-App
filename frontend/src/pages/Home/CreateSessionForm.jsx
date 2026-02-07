@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SpinnerLoader from '../../components/Loader/SpinnerLoader';
-import Input from '../../components/Inputs/Input'
 import axios from 'axios';
 import { API_PATHS } from '../../utils/apipath';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { Label } from '@/components/ui/Label';
+import SpinnerLoader from '@/components/Loader/SpinnerLoader';
+import { Briefcase, Clock, FileText, Target, AlertCircle } from 'lucide-react';
 
-
-const CreateSessionForm = () => {
+const CreateSessionForm = ({ onClose }) => {
 
     const [formData, setFormData] = useState({
         role: "",
@@ -19,8 +21,6 @@ const CreateSessionForm = () => {
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
-
-    // backend url 
     const baseUrl = import.meta.env.VITE_BASE_URL;
 
     const handleChange = (key, value) => {
@@ -31,115 +31,105 @@ const CreateSessionForm = () => {
 
     const handleCreatesession = async (e) => {
         e.preventDefault();
-
-        const { role, experience, topicsToFocus, description } = formData;
-
+        const { role, experience, topicsToFocus } = formData;
         if (!role || !experience || !topicsToFocus) {
-            setError("Please fill all the required fields.")
+            setError("Please fill all the required fields.");
+            return;
         }
 
         setError("");
         setLoading(true)
 
-
         try {
-
             const aiResponse = await axios.post(`${baseUrl}${API_PATHS.AI.GENERATE_QUESTIONS}`, {
                 role,
                 experience,
                 topicsToFocus,
                 numberOfQuestions: 10,
-            }, {
-                withCredentials: true,
-            });
+            }, { withCredentials: true });
 
             const generatedQuestions = aiResponse.data;
-
 
             const response = await axios.post(`${baseUrl}${API_PATHS.SESSION.CREATE}`, {
                 ...formData,
                 questions: generatedQuestions,
-            }, {
-                withCredentials: true,
-            });
-
-        
+            }, { withCredentials: true });
 
             if (response.data?.session?._id) {
+                if (onClose) onClose();
                 navigate(`/interview-prep/${response.data?.session?._id}`);
             }
 
         } catch (error) {
-            if (error.response && error.response.data.message) {
-                setError(error.response.data.message);
-            } else {
-                setError("Something went worn. Please try again.")
-            }
+            setError(error.response?.data?.message || "Something went wrong. Please try again.");
         } finally {
             setLoading(false);
         }
-
-
-
     }
 
     return (
-        <div className='w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center'>
-            <h3 className='text-lg font-semibold text-black'>
-                Start a New Interview Journey
-            </h3>
-            <p className='text-xs text-slate-700 mt-[5px] mb-3'>
-                Fill out a few quick details and unlock your personalized set of
-                interview questions!
-            </p>
+        <div className='flex flex-col'>
+            <div className="mb-6">
+                <h3 className="text-2xl font-display font-medium text-white mb-2">New Session</h3>
+                <p className="text-sm text-muted-foreground">Configure your interview focus. Our AI will tailor questions specifically for you.</p>
+            </div>
 
-            <form onSubmit={handleCreatesession} className='flex flex-col gap-3'>
-                <Input
-                    value={formData.role}
-                    onChange={({ target }) => handleChange("role", target.value)}
-                    label="Target Role"
-                    placeholder="(e.g., Frontend Developer, UI/UX Designer, etc.)"
-                    type="text"
-                />
+            <form onSubmit={handleCreatesession} className='flex flex-col gap-5'>
+                <div className="space-y-2">
+                    <Label className="flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Target Role</Label>
+                    <Input
+                        value={formData.role}
+                        onChange={({ target }) => handleChange("role", target.value)}
+                        placeholder="e.g. Senior React Developer"
+                    />
+                </div>
 
+                <div className="space-y-2">
+                    <Label className="flex items-center gap-2"><Clock className="w-4 h-4 text-primary" /> Years of Experience</Label>
+                    <Input
+                        value={formData.experience}
+                        onChange={({ target }) => handleChange("experience", target.value)}
+                        placeholder="e.g. 5"
+                        type="number"
+                    />
+                </div>
 
-                <Input
-                    value={formData.experience}
-                    onChange={({ target }) => handleChange("experience", target.value)}
-                    label="Years of Experience"
-                    placeholder="(e.g., 1 year, 3 years, 5+ years)"
-                    type="number"
-                />
+                <div className="space-y-2">
+                    <Label className="flex items-center gap-2"><Target className="w-4 h-4 text-primary" /> Tech Stack / Topics</Label>
+                    <Input
+                        value={formData.topicsToFocus}
+                        onChange={({ target }) => handleChange("topicsToFocus", target.value)}
+                        placeholder="e.g. React, Node.js, System Design"
+                    />
+                </div>
 
-                <Input
-                    value={formData.topicsToFocus}
-                    onChange={({ target }) => handleChange("topicsToFocus", target.value)}
-                    label="Topics to Focus On"
-                    placeholder="(Comma-separated, e.g., React, Node.js, MongoDB)"
-                    type="text"
-                />
+                <div className="space-y-2">
+                    <Label className="flex items-center gap-2"><FileText className="w-4 h-4 text-primary" /> Notes / Goal</Label>
+                    <Input
+                        value={formData.description}
+                        onChange={({ target }) => handleChange("description", target.value)}
+                        placeholder="e.g. Preparing for Google interview next week"
+                    />
+                </div>
 
-                <Input
-                    value={formData.description}
-                    onChange={({ target }) => handleChange("description", target.value)}
-                    label="Description"
-                    placeholder="(Any specific goals or notes for this session)"
-                    type="text"
-                />
+                {error && (
+                    <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md flex items-center gap-2 mt-2">
+                        <AlertCircle className="w-4 h-4" />
+                        {error}
+                    </div>
+                )}
 
-                {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
-
-                <button
+                <Button
                     type='submit'
-                    className='btn-primary w-full mt-2'
+                    className='w-full mt-4 font-bold h-11'
                     disabled={isLoading}
                 >
-                    {isLoading ? <SpinnerLoader /> : "Create Session"}
-                </button>
+                    {isLoading ? <SpinnerLoader /> : "GENERATE SESSION"}
+                </Button>
 
             </form>
         </div>
     )
 }
 
-export default CreateSessionForm
+export default CreateSessionForm;

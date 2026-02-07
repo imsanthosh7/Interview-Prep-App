@@ -1,30 +1,35 @@
 import React from 'react'
+import { Button } from './ui/Button'
 
 const DeleteAlertContent = ({ content, onDelete, setOpenDeleteAlert }) => {
     return (
-        <div className="p-6">
-            <p className="text-sm text-gray-700">{content}</p>
+        <div className="">
+            <div className="flex flex-col gap-2 mb-6">
+                <h3 className="text-lg font-bold text-white">Confirm Deletion</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{content}</p>
+            </div>
 
-            <div className="flex justify-end gap-3 mt-6">
-                <button
+            <div className="flex justify-end gap-3">
+                <Button
                     type="button"
+                    variant="ghost"
                     onClick={() => setOpenDeleteAlert({ open: false, data: null })}
-                    className="px-5 py-2 rounded-lg border cursor-pointer border-gray-300 text-gray-600 hover:bg-gray-100 hover:text-black transition-all duration-200 shadow-sm"
+                    className="text-muted-foreground hover:text-white"
                 >
                     Cancel
-                </button>
+                </Button>
 
-                <button
+                <Button
                     type="button"
+                    variant="destructive"
                     onClick={onDelete}
-                    className="px-5 py-2 rounded-lg bg-red-600 cursor-pointer text-white hover:bg-red-700 transition-all duration-200 shadow-sm"
+                    className="bg-red-600 hover:bg-red-700 text-white border-0 font-bold"
                 >
-                    Delete
-                </button>
+                    Delete Forever
+                </Button>
             </div>
         </div>
     );
 };
-
 
 export default DeleteAlertContent

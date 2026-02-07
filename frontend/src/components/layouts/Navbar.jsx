@@ -1,15 +1,14 @@
-import React from 'react'
-import ProfileInfoCard from '../Cards/ProfileInfoCard';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
+import ProfileInfoCard from '../Cards/ProfileInfoCard';
 
 const Navbar = () => {
     return (
-        <div className='h-20 md:h-18  bg-white border border-b border-gray-200/50 backdrop-blur-[2px] md:py-2.5 py-5 px-1 md:px-0 sticky top-0 z-30'>
-            <div className='w-9/10 container mx-auto flex items-center justify-between gap-5'>
-                <Link to="/">
-                    <h2 className='text-xl font-medium text-black leading-5 flex justify-center items-center'>
-                       QuickPrep AI
+        <div className='h-20 bg-background/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50 flex items-center mb-6'>
+            <div className='w-full max-w-7xl mx-auto px-6 flex items-center justify-between'>
+                <Link to="/" className="group">
+                    <h2 className='text-xl font-display font-bold text-white tracking-tight flex items-center gap-1'>
+                        INTERVIEW <span className='text-primary group-hover:animate-pulse'>.AI</span>
                     </h2>
                 </Link>
                 <ProfileInfoCard />
@@ -18,4 +17,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar;

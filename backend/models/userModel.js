@@ -5,8 +5,9 @@ const UserSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
         email: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
+        password: { type: String, required: false }, // Made optional for OAuth users
         profileImageUrl: { type: String },
+        googleId: { type: String, unique: true, sparse: true }, // For Google OAuth
 
     },
     {

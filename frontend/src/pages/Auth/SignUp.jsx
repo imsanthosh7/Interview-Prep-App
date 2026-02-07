@@ -1,22 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Input from '../../components/Inputs/Input';
-import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector';
-import { validateEmail } from '../../utils/helper';
-import { API_PATHS } from '../../utils/apipath.js';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { useContext } from 'react';
-import { UserContext } from '../../context/userContext.jsx';
-import { uploadImage } from '../../utils/uploadImage.js'
+import { UserContext } from '../../context/userContext';
+import { API_PATHS } from '../../utils/apipath';
+import { validateEmail } from '../../utils/helper';
+import { uploadImage } from '../../utils/uploadImage';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
+import GoogleOAuthButton from '@/components/Auth/GoogleOAuthButton';
 import SpinnerLoader from '@/components/Loader/SpinnerLoader';
-
-
-
-
-
-
-
+import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector';
+import { AlertCircle } from 'lucide-react';
 
 const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
@@ -27,128 +24,125 @@ const SignUp = ({ setCurrentPage }) => {
   const [loading, setLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
-
   const navigate = useNavigate();
-
-
-  // backend url 
   const baseUrl = import.meta.env.VITE_BASE_URL;
-
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (!fullName) { setError("Please enter full name."); return; }
+    if (!validateEmail(email)) { setError("Please enter a valid email address."); return; }
+    if (!password) { setError("Please enter the password"); return; }
 
-    let profileImageUrl = "";
-
-    if (!fullName) {
-      setError("Please enter full name.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!password) {
-      setError("Please enter the  password");
-      return;
-    }
-
-    setError("")
-
+    setError("");
     setLoading(true);
 
     try {
-
+      let profileImageUrl = "";
       if (profilePic) {
         const imageUploadRes = await uploadImage(profilePic);
         profileImageUrl = imageUploadRes.imgUrl || "";
       }
 
-      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`, { name: fullName, email, password, profileImageUrl }, {
-        withCredentials: true,
-      });
+      const response = await axios.post(`${baseUrl}${API_PATHS.AUTH.REGISTER}`,
+        { name: fullName, email, password, profileImageUrl },
+        { withCredentials: true }
+      );
 
-      // Check backend response status
       if (response.data.success === false) {
-        setError(response.data.message || "Login failed.");
+        setError(response.data.message || "Registration failed.");
         return;
       }
-
       const { token } = response.data;
-
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
         navigate("/dashboard");
       }
-
     } catch (error) {
-      if (error.message) {
-        toast.error(error.message);
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      setError(error.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className='w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center'>
-      <h3 className='text-xl font-semibold text-black'>Create an Account</h3>
-      <p className='text-lg text-slate-700 mt-[5px] mb-6'>
-        Join us today by entering your details below.
-      </p>
+    <Card className="w-full max-w-md mx-auto border-0 shadow-none bg-background md:bg-card md:border md:border-border">
+      <CardHeader>
+        <CardTitle>Create Account</CardTitle>
+        <CardDescription>Join our community of engineers mastering their craft.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSignUp} className="space-y-4">
+          <div className="flex justify-center mb-6">
+            <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+          </div>
 
-      <form onSubmit={handleSignUp}>
+          <div className="space-y-2">
+            <Label htmlFor="fullName">Full Name</Label>
+            <Input
+              id="fullName"
+              type="text"
+              placeholder="Jane Doe"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+          </div>
 
-        <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="jane@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-1 gap-2'>
-          <Input
-            value={fullName}
-            onChange={({ target }) => setFullName(target.value)}
-            label="Full Name"
-            placeholder="John"
-            type="text"
-          />
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-          <Input
-            value={email}
-            onChange={({ target }) => setEmail(target.value)}
-            label="Email Address"
-            placeholder="john@example.com"
-            type="text"
-          />
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md flex items-center gap-2">
+              <AlertCircle className="w-4 h-4" />
+              {error}
+            </div>
+          )}
 
-          <Input
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-            label="Password"
-            placeholder="Min 8 Characters"
-            type="password"
-          />
+          <Button type="submit" className="w-full font-bold" disabled={loading}>
+            {loading ? <SpinnerLoader /> : "CREATE ACCOUNT"}
+          </Button>
+        </form>
+
+        <div className="relative flex items-center my-6">
+          <div className="flex-grow border-t border-border"></div>
+          <span className="flex-shrink mx-4 text-muted-foreground text-xs uppercase tracking-widest">Or continue with</span>
+          <div className="flex-grow border-t border-border"></div>
         </div>
 
-        {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
-        {/* <button className='btn-primary'><a href="http://localhost:8000/api/auth/google">Login with Google</a></button> */}
-        <button disabled={loading} type='submit' className='btn-primary'>{loading ? <SpinnerLoader /> : "SIGN UP"}</button>
-        <p className='text-[14px] text-slate-800 mt-3'>
-          Already an account?{" "}
+        <GoogleOAuthButton text="Google" />
+      </CardContent>
+      <CardFooter className="flex justify-center">
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{" "}
           <button
-            className='font-medium text-red-500 underline cursor-pointer'
-            onClick={() => {
-              setCurrentPage("login");
-            }}
+            className="text-primary font-medium hover:underline"
+            onClick={() => setCurrentPage("login")}
           >
             Login
           </button>
         </p>
-      </form>
-    </div>
-  )
-}
+      </CardFooter>
+    </Card>
+  );
+};
 
-export default SignUp
+export default SignUp;

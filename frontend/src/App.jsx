@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './pages/Auth/Login';
 import SignUp from "./pages/Auth/SignUp";
+import OAuthCallback from "./pages/Auth/OAuthCallback";
 import Dashboard from "./pages/Home/Dashboard"
 import InterviewPrep from "./pages/InterviewPrep/InterviewPrep";
 import LandingPage from './pages/LandingPage';
@@ -21,6 +22,7 @@ const App = () => {
             <Route path='/' element={<LandingPage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signUp' element={<SignUp />} />
+            <Route path='/auth/callback' element={<OAuthCallback />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/interview-prep/:sessionId' element={<InterviewPrep />} />
           </Routes>

@@ -132,3 +132,39 @@ export const getUserProfile = async (req, res) => {
     }
 
 }
+
+
+// Google OAuth Success Callback
+export const googleAuthCallback = async (req, res) => {
+    try {
+        const user = req.user;
+
+        if (!user) {
+            return res.redirect(`${process.env.FRONTEND_URL}/?error=authentication_failed`);
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: '7d'
+        });
+
+        // Set cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        // Redirect to frontend with user data
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        const redirectUrl = `${frontendUrl}/auth/callback?token=${token}&userId=${user._id}`;
+
+        res.redirect(redirectUrl);
+
+    } catch (error) {
+        console.error('OAuth callback error:', error);
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        res.redirect(`${frontendUrl}/?error=server_error`);
+    }
+}

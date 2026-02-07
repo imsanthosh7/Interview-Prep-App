@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react';
+import { Card, CardTitle } from './ui/Card';
 
 const backdropVariants = {
   hidden: { opacity: 0 },
@@ -9,65 +10,66 @@ const backdropVariants = {
 }
 
 const modalVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.95, y: 10 },
   visible: {
     opacity: 1,
     scale: 1,
+    y: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.2,
       ease: 'easeOut',
-      when: 'beforeChildren',
-      staggerChildren: 0.1 // optional: stagger inner elements
     }
   },
   exit: {
     opacity: 0,
-    scale: 0.9,
-    transition: { duration: 0.2, ease: 'easeIn' }
+    scale: 0.95,
+    y: 10,
+    transition: { duration: 0.15, ease: 'easeIn' }
   }
 }
-
-
-
 
 const Modal = ({ isOpen, onClose, hideHeader, title, children }) => {
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/40'
+          className='fixed inset-0 z-[100] flex justify-center items-center w-full h-full bg-black/60 backdrop-blur-sm'
           variants={backdropVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
+          onClick={onClose}
         >
           <motion.div
-            className='relative flex items-center flex-col bg-white shadow-lg rounded-lg overflow-hidden mx-4 max-h-[90vh]'
+            className='relative w-full max-w-lg mx-4'
             variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            {!hideHeader && (
-              <div className='flex items-center justify-between p-4 border-b border-gray-200'>
-                <h3 className='md:text-lg font-medium text-gray-900'>{title}</h3>
+            <Card className="bg-card border border-white/10 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+              {/* Close Button */}
+              <button
+                type='button'
+                className='absolute top-4 right-4 z-10 p-2 text-muted-foreground hover:text-white rounded-full hover:bg-white/10 transition-colors'
+                onClick={onClose}
+              >
+                <X className='w-5 h-5' />
+              </button>
+
+              {/* Modal Header */}
+              {!hideHeader && title && (
+                <div className='flex items-center justify-between p-6 border-b border-white/5'>
+                  <CardTitle className='text-xl font-medium'>{title}</CardTitle>
+                </div>
+              )}
+
+              {/* Modal Body */}
+              <div className='flex-1 overflow-y-auto custom-scrollbar p-6'>
+                {children}
               </div>
-            )}
-
-            {/* Close Button */}
-            <button
-              type='button'
-              className='text-gray-400 bg-transparent hover:bg-gray/25 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5 cursor-pointer'
-              onClick={onClose}
-            >
-             <X className='text-lg' />
-            </button>
-
-            {/* Modal Body */}
-            <div className='flex-1 overflow-y-auto custom-scrollbar p-4'>
-              {children}
-            </div>
+            </Card>
           </motion.div>
         </motion.div>
       )}

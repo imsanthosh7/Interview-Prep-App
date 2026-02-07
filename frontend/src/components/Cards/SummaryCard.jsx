@@ -1,9 +1,9 @@
 import React from 'react';
-import { getInitials } from '../../utils/helper.js';
 import { Trash2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 
 const SummaryCard = ({
-    colors,
     role,
     topicsToFocus,
     experience,
@@ -14,71 +14,57 @@ const SummaryCard = ({
     onDelete,
 }) => {
     return (
-        <div
-            className="bg-white w-auto border cursor-pointer border-gray-200 rounded-2xl p-3 hover:shadow-md transition-shadow duration-300 group relative"
+        <Card
+            className="group relative border border-white/5 bg-gradient-to-br from-card to-card/50 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_-5px_var(--color-primary)]/10 cursor-pointer overflow-hidden"
             onClick={onSelect}
         >
-            {/* Top Section */}
-            <div
-                className="rounded-xl p-4 relative"
-                style={{ background: colors.bgcolor }}
-            >
-                <div className="flex items-start">
-                    {/* Initials Badge */}
-                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-4 shadow-sm">
-                        <span className="text-lg font-semibold text-gray-800">
-                            {getInitials(role)}
-                        </span>
-                    </div>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-16 -mt-16 group-hover:bg-primary/10 transition-colors pointer-events-none" />
 
-                    {/* Content */}
-                    <div className="flex-grow">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <h2 className="text-[17px] font-semibold text-white">
-                                    {role}
-                                </h2>
-                                <p className="text-xs text-white/80 mt-1">
-                                    {topicsToFocus}
-                                </p>
-                            </div>
+            <CardHeader className="pb-4">
+                <div className="flex justify-between items-start">
+                    <div>
+                        <div className="inline-flex items-center rounded-full border border-white/10 px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground mb-3 bg-white/5">
+                            {role}
                         </div>
+                        <CardTitle className="text-lg font-normal text-muted-foreground group-hover:text-white transition-colors">
+                            {topicsToFocus || "General Prep"}
+                        </CardTitle>
                     </div>
                 </div>
+            </CardHeader>
 
-                {/* Delete Button */}
-                <button
-                    className="absolute top-3 right-3 md:hidden cursor-pointer group-hover:flex items-center justify-center bg-white text-rose-500 hover:bg-rose-100 border border-gray-200 rounded-full p-2 transition duration-200"
+            <CardContent>
+                <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                    {description || "No description provided."}
+                </p>
+
+                <div className="flex gap-4 mt-6">
+                    <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground/50 uppercase tracking-wider">Experience</span>
+                        <span className="font-mono text-sm">{experience} Yrs</span>
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-xs text-muted-foreground/50 uppercase tracking-wider">Questions</span>
+                        <span className="font-mono text-sm">{questions}</span>
+                    </div>
+                </div>
+            </CardContent>
+
+            <CardFooter className="pt-2 flex justify-between items-center text-xs text-muted-foreground/40 font-mono border-t border-white/5 bg-black/20">
+                <span>Updated: {lastUpdated}</span>
+                <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 -mr-2"
                     onClick={(e) => {
                         e.stopPropagation();
                         onDelete();
                     }}
                 >
                     <Trash2 className="w-4 h-4" />
-                </button>
-            </div>
-
-            {/* Bottom Section */}
-            <div className="mt-4 px-2">
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 text-[11px] font-medium text-gray-700">
-                    <span className="px-3 py-1 bg-gray-100 rounded-full">
-                        {experience} {experience === 1 ? 'Year' : 'Years'} Exp
-                    </span>
-                    <span className="px-3 py-1 bg-gray-100 rounded-full">
-                        {questions} Q&A
-                    </span>
-                    <span className="px-3 py-1 bg-gray-100 rounded-full">
-                        Updated: {lastUpdated}
-                    </span>
-                </div>
-
-                {/* Description */}
-                <p className="text-sm text-gray-600 mt-3 line-clamp-2 leading-relaxed">
-                    {description}
-                </p>
-            </div>
-        </div>
+                </Button>
+            </CardFooter>
+        </Card>
     );
 };
 

@@ -1,14 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 const ProfileInfoCard = () => {
     const { user, clearUser, loading } = useContext(UserContext);
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const dropdownRef = useRef();
-
 
     const handleLogout = () => {
         clearUser();
@@ -16,7 +16,6 @@ const ProfileInfoCard = () => {
         navigate("/");
     };
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -27,36 +26,47 @@ const ProfileInfoCard = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    useEffect(() => setImageError(false), [user?.profileImageUrl]);
+
     return (
-        <div className="relative flex  items-center" ref={dropdownRef}>
+        <div className="relative flex items-center z-50" ref={dropdownRef}>
             <div
-                className="rounded-full cursor-pointer"
+                className="cursor-pointer group flex items-center gap-3"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div className="md:w-13 md:h-13 w-11 h-11 rounded-full border-2 border-neutral-200 overflow-hidden bg-gray-200 flex items-center justify-center">
+                <div className="hidden md:block text-right">
+                    <p className="text-sm font-medium text-white group-hover:text-primary transition-colors">{user?.name}</p>
+                    <p className="text-xs text-muted-foreground">Expert</p>
+                </div>
+                <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden bg-white/5 flex items-center justify-center group-hover:border-primary transition-colors">
                     {loading ? (
-                        <div className="w-full h-full animate-pulse bg-gray-300 rounded-full"></div>
-                    ) : user?.profileImageUrl ? (
+                        <div className="w-full h-full animate-pulse bg-white/10"></div>
+                    ) : user?.profileImageUrl && !imageError ? (
                         <img
                             src={user.profileImageUrl}
                             alt="User"
                             className="w-full h-full object-cover"
+                            onError={() => setImageError(true)}
+                            referrerPolicy="no-referrer"
                         />
                     ) : (
-                        <span className="text-lg font-semibold text-white bg-blue-500 w-full h-full flex items-center justify-center rounded-full">
+                        <span className="text-lg font-bold text-primary">
                             {user?.name?.charAt(0)?.toUpperCase() || "U"}
                         </span>
                     )}
                 </div>
-
-
             </div>
 
             {isOpen && (
-                <div className="absolute -right-5  md:-right-10  -bottom-11 w-30 bg-white border-1 border-gray-200   rounded-sm shadow-sm z-50 overflow-hidden">
+                <div className="absolute right-0 top-14 w-48 bg-card border border-white/10 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <div className="p-3 border-b border-white/5 md:hidden">
+                        <p className="text-sm font-medium text-white">{user?.name}</p>
+                        <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    </div>
+
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-2 px-4 py-2 text-sm cursor-pointer text-rose-600  hover:bg-rose-400/5 font-medium"
+                        className="w-full flex items-center gap-3 px-4 py-3 text-sm cursor-pointer text-destructive hover:bg-destructive/10 font-medium transition-colors"
                     >
                         <LogOut className="w-4 h-4" />
                         Logout
